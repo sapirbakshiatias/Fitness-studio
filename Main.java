@@ -23,7 +23,7 @@ public class Main {
         gym.setName("CrossFit");
         gym.setSecretary(p1, 9000);
 
-        Secretary gymSecretary = gym.getSecretary();
+        gymSecretary gymSecretary = gym.getSecretary();
 
         Client c1 = gymSecretary.registerClient(p2);
         Client c2 = gymSecretary.registerClient(p3);
@@ -108,7 +108,7 @@ public class Main {
         gymSecretary.paySalaries();
 
         gym.setSecretary(p3,8000);
-        Secretary newGymSecretary = gym.getSecretary();
+        gym.management.gymSecretary newGymSecretary = gym.getSecretary();
 
         try{
             gymSecretary.registerClientToLesson(c1, s1);
