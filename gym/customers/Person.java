@@ -1,6 +1,7 @@
 package gym.customers;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.time.Period;
 
 public class Person {
@@ -9,46 +10,52 @@ public class Person {
     private Gender gender;
     private LocalDate birthday;
 
-
-    protected Person(String name, double balance, Gender gender, LocalDate birthday) {
+    public Person(String name, double balance, Gender gender, String birthdayStr) {
         this.name = name;
         this.balance = balance;
         this.gender = gender;
-        this.birthday = birthday;
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        this.birthday = LocalDate.parse(birthdayStr, formatter);
     }
 
-    protected String getName() {
+    public String getName() {
         return name;
     }
-    protected void setName(String name) {
+
+    public void setName(String name) {
         this.name = name;
     }
 
-    protected double getBalance() {
+    public double getBalance() {
         return balance;
     }
-    protected void setBalance(double balance){
+
+    public void setBalance(double balance) {
         this.balance = balance;
     }
 
-    protected Gender getGender() {
+    public Gender getGender() {
         return gender;
     }
-    protected void setGender(Gender gender){
+
+    public void setGender(Gender gender) {
         this.gender = gender;
     }
-    protected LocalDate getBirthdate() {
+
+    public LocalDate getBirthday() {
         return birthday;
     }
-    protected void setBirthday(LocalDate birthday){
+
+    public void setBirthday(LocalDate birthday) {
         this.birthday = birthday;
     }
-    protected int age(LocalDate birthday) {
+
+    public int getAge() {
         LocalDate currentDate = LocalDate.now();
-        Period period = Period.between(birthday, currentDate);
-        return period.getYears();
+        return Period.between(birthday, currentDate).getYears();
     }
 
+    public String getRole() {
+        return "Person"; // Default role, can be overridden by subclasses
+    }
 }
-
-
