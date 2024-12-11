@@ -1,13 +1,16 @@
 package gym.management;
 
-import gym.customers.Client;
-import gym.customers.Instructor;
+
 import gym.management.Sessions.Session;
+import gym.customers.*;
 
 import java.util.ArrayList;
 
+
 public class gymSecretary {
+
     public void unregisterClient(Client c2) {
+
     }
 
     public Client registerClient(Person p4) {
