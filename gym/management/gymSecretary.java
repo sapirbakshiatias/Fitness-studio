@@ -1,19 +1,31 @@
 package gym.management;
 
 
+import gym.Exception.DuplicateClientException;
+import gym.customers.Client;
+import gym.customers.Instructor;
+import gym.customers.Person;
 import gym.management.Sessions.Session;
-import gym.customers.*;
 
 import java.util.ArrayList;
 
 
 public class gymSecretary {
+    private ArrayList<Person> registeredClients = new ArrayList<>();
+
 
     public void unregisterClient(Client c2) {
-
+        registeredClients.remove(c2);
     }
 
-    public Client registerClient(Person p4) {
+    public Client registerClient(Person newP) throws DuplicateClientException {
+
+        if (isPersonClient(newP)) {
+            throw new DuplicateClientException("The client is already registered");
+        }
+        Client newClient = new Client(newP.getName(), newP.getBalance(), newP.getGender(), newP.getBirthday());
+        registeredClients.add(newClient);
+        return newClient;
     }
 
     public Instructor hireInstructor(Person p4, int i, ArrayList<Object> objects) {
@@ -26,5 +38,18 @@ public class gymSecretary {
     }
 
     public void paySalaries() {
+    }
+
+    public boolean isPersonClient(Person p) {
+        //todo: same name
+        for (Person person : registeredClients) {
+            if (person.getName().equals(p.getName()))
+                return true;
+        }
+        return false;
+    }
+
+    public void notify(Session s4, String s) {
+
     }
 }
