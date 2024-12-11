@@ -43,13 +43,34 @@ public class gymSecretary {
     public boolean isPersonClient(Person p) {
         //todo: same name
         for (Person person : registeredClients) {
-            if (person.getName().equals(p.getName()))
-                return true;
+            if (person.getName().equals(p.getName())) return true;
         }
         return false;
     }
 
     public void notify(Session s4, String s) {
-
+        //todo: observer
     }
 }
+
+
+
+//todo: balce gym
+//    }
+//
+//    // Method to update the balance by adding an amount
+//    public void addFunds(double amount) {
+//        if (amount > 0) {
+//            this.balance += amount;
+//        }
+//    }
+//
+//    // Method to subtract from the balance (e.g., for expenses)
+//    public void deductFunds(double amount) {
+//        if (amount > 0 && this.balance >= amount) {
+//            this.balance -= amount;
+//        }
+//    }
+//
+//    // Optional: you can add any other necessary business logic related to the gym's balance here
+//}
