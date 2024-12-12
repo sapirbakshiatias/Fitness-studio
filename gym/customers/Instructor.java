@@ -5,12 +5,12 @@ import java.util.List;
 
 public class Instructor extends Person {
     private int salary;
-    private List<SessionType> sessionTypes;
+    private List<SessionType> qualifiedSTypes;
 
-    public Instructor(String name, double balance, Gender gender, String birthdayStr, int salary, List<SessionType> sessionTypes) {
+    public Instructor(String name, double balance, Gender gender, String birthdayStr, int salary, List<SessionType> qualifiedSTypes) {
         super(name, balance, gender, birthdayStr);
         this.salary = salary;
-        this.sessionTypes = sessionTypes;
+        this.qualifiedSTypes = qualifiedSTypes;
     }
 
     public int getSalary() {
@@ -21,12 +21,12 @@ public class Instructor extends Person {
         this.salary = salary;
     }
 
-    public List<SessionType> getSessionTypes() {
-        return sessionTypes;
+    public List<SessionType> getQualifiedSTypes() {
+        return qualifiedSTypes;
     }
 
-    public void setSessionTypes(List<SessionType> sessionTypes) {
-        this.sessionTypes = sessionTypes;
+    public void setQualifiedSTypes(List<SessionType> qualifiedSTypes) {
+        this.qualifiedSTypes = qualifiedSTypes;
     }
 
     @Override

@@ -2,7 +2,9 @@ package gym.management.Sessions;
 
 import gym.customers.*;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public abstract class Session {
     private SessionType sessionType;
@@ -11,6 +13,7 @@ public abstract class Session {
     private Instructor instructor;
     private double price;
     private int maxParticipants;
+    private List<Client> participants;
 
     public Session(SessionType sessionType, Date date, ForumType forumType, Instructor instructor) {
         this.date = date;
@@ -18,6 +21,8 @@ public abstract class Session {
         this.instructor = instructor;
         this.price = sessionType.getPrice();
         this.maxParticipants = sessionType.getMaxParticipants();
+        List<Client> participants = new ArrayList<>();
+
     }
 
     public Date getDate() {
@@ -47,7 +52,14 @@ public abstract class Session {
     public SessionType getSessionType() {
         return sessionType;
     }
+    public List<Client> getParticipants() {
+        return participants;
+    }
 
+    // Setter for participants
+    public void setParticipants(List<Client> participants) {
+        this.participants = participants;
+    }
 
 }
 

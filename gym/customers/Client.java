@@ -26,4 +26,7 @@ public class Client extends Person implements Observer {
     public List<String> getNotifications() {
         return notifications; // Return the list of notifications
     }
+    public boolean isClient(Person p){
+        return p.getRole().equals("Client");
+    }
 }

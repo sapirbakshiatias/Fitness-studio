@@ -1,10 +1,12 @@
-Error: Client must be at least 18 years old to register //
-Error: The client is already registered
-Error: Registration is required before attempting to unregister
-Error: Instructor is not qualified to conduct this session type.
-Error: The client is already registered for this lesson
-Error: The client is not registered with the gym and cannot enroll in lessons
-Error: Former secretaries are not permitted to perform actions
+* means used
+
+*Error: Client must be at least 18 years old to register // רישום לשיעור
+*Error: The client is already registered // רישום לשיעור
+*Error: Registration is required before attempting to unregister //ביטול שיעור
+*Error: Instructor is not qualified to conduct this session type. //השמת מדריך לשיעור
+*Error: The client is already registered for this lesson //רישום לשיעור
+*Error: The client is not registered with the gym and cannot enroll in lessons//רישום לשיעור
+Error: Former secretaries are not permitted to perform actions//מזכירה ששונתה
 
 ---Actions history---
 A new secretary has started working at the gym: David

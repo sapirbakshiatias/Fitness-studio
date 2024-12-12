@@ -1,5 +1,7 @@
 package gym.customers;
 
+import gym.Exception.InvalidAgeException;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.Period;
@@ -50,9 +52,13 @@ public class Person {
         this.birthday = birthday;
     }
 
-    public int getAge() {
+    public int getAge() throws InvalidAgeException {
         LocalDate currentDate = LocalDate.now();
-        return Period.between(birthday, currentDate).getYears();
+        int age = Period.between(birthday, currentDate).getYears();
+        if (age < 18) {
+            throw new InvalidAgeException("Error: Client must be at least 18 years old to register ");
+        }
+        return age;
     }
 
     public String getRole() {
