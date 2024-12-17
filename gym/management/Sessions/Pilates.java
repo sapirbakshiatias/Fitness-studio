@@ -8,8 +8,8 @@ import java.util.Date;
 
 public class Pilates extends Session {
 
-    public Pilates(SessionType sessionType, Date date, ForumType forumType, Instructor instructor) {
-        super(SessionType.Pilates, date, forumType, instructor);
+    public Pilates(SessionType sessionType, String dateTimeStr, ForumType forumType, Instructor instructor) {
+        super(SessionType.Pilates, dateTimeStr, forumType, instructor);
     }
 
 }

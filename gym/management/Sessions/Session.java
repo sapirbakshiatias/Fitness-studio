@@ -2,35 +2,39 @@ package gym.management.Sessions;
 
 import gym.customers.*;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 public abstract class Session {
     private SessionType sessionType;
-    private Date date;
+    private LocalDateTime sessionDateTime;
     private ForumType forumType;
     private Instructor instructor;
     private double price;
     private int maxParticipants;
     private List<Client> participants;
 
-    public Session(SessionType sessionType, Date date, ForumType forumType, Instructor instructor) {
-        this.date = date;
+
+
+    public Session(SessionType sessionType, String dateTimeStr, ForumType forumType, Instructor instructor) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
+        this.sessionDateTime = LocalDateTime.parse(dateTimeStr, formatter); // המרה ממחרוזת ל-LocalDateTime
         this.forumType = forumType;
         this.instructor = instructor;
         this.price = sessionType.getPrice();
         this.maxParticipants = sessionType.getMaxParticipants();
         List<Client> participants = new ArrayList<>();
-
     }
 
-    public Date getDate() {
-        return date;
+    public LocalDateTime getDateTime() {
+        return sessionDateTime;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void setDateTime(LocalDateTime sessionDateTime) {
+        this.sessionDateTime = sessionDateTime;
     }
 
     public ForumType getForumType() {
@@ -57,10 +61,22 @@ public abstract class Session {
     }
 
     // Setter for participants
-    public void setParticipants(List<Client> participants) {
-        this.participants = participants;
+    public void setParticipants(Client c) {
+        participants.add(c);
+    }
+    public boolean isParticipantRegistered(Client client) {
+        return participants.contains(client);
     }
 
+    public boolean isFull() {
+        return participants.size() >= maxParticipants;
+    }
+
+    public void addParticipant(Client client) {
+        if (!isFull() && !isParticipantRegistered(client)) {
+            participants.add(client);
+        }
+    }
 }
 
 

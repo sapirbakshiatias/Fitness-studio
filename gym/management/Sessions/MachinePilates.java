@@ -9,8 +9,8 @@ import gym.customers.Instructor;
 import java.util.Date;
 
 public class MachinePilates extends Session {
-    public MachinePilates(SessionType sessionType, Date date, ForumType forumType, Instructor instructor) {
-        super(SessionType.MachinePilates, date, forumType, instructor);
+    public MachinePilates(SessionType sessionType, String dateTimeStr, ForumType forumType, Instructor instructor) {
+        super(SessionType.MachinePilates, dateTimeStr, forumType, instructor);
     }
 }
 

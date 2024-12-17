@@ -8,8 +8,8 @@ import java.util.Date;
 
 public class ThaiBoxing extends Session {
 
-    public ThaiBoxing(SessionType sessionType, Date date, ForumType forumType, Instructor instructor) {
-        super(SessionType.ThaiBoxing, date, forumType, instructor);
+    public ThaiBoxing(SessionType sessionType, String dateTimeStr, ForumType forumType, Instructor instructor) {
+        super(SessionType.ThaiBoxing, dateTimeStr, forumType, instructor);
     }
 }
 

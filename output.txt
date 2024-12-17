@@ -1,12 +1,10 @@
-* means used
-
-*Error: Client must be at least 18 years old to register // רישום לשיעור
-*Error: The client is already registered // רישום לשיעור
-*Error: Registration is required before attempting to unregister //ביטול שיעור
-*Error: Instructor is not qualified to conduct this session type. //השמת מדריך לשיעור
-*Error: The client is already registered for this lesson //רישום לשיעור
-*Error: The client is not registered with the gym and cannot enroll in lessons//רישום לשיעור
-Error: Former secretaries are not permitted to perform actions//מזכירה ששונתה
+Error: Client must be at least 18 years old to register
+Error: The client is already registered
+Error: Registration is required before attempting to unregister
+Error: Instructor is not qualified to conduct this session type.
+Error: The client is already registered for this lesson
+Error: The client is not registered with the gym and cannot enroll in lessons
+Error: Former secretaries are not permitted to perform actions
 
 ---Actions history---
 A new secretary has started working at the gym: David
@@ -57,7 +55,7 @@ Nofar Notifications: [The instructor will be a few minutes late for the session,
 ---Gym information---
 Gym Name: CrossFit
 Gym Secretary: ID: 1113 | Name: Maayan | Gender: Female | Birthday: 21-12-2005 | Age: 19 | Balance: 50 | Role: Secretary | Salary per Month: 8000
-Gym Balance: 1010
+Gym Balance: -8410
 
 Clients Data:
 ID: 1112 | Name: Nofar | Gender: Female | Birthday: 03-07-1998 | Age: 26 | Balance: 890

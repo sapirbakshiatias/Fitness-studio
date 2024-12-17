@@ -19,11 +19,12 @@ public class Main {
 
         Person p9 = new Person("Dani", 850, Gender.Male, "03-10-2015");
 
+
         Gym gym = Gym.getInstance();
         gym.setName("CrossFit");
         gym.setSecretary(p1, 9000);
 
-        gymSecretary gymSecretary = gym.getSecretary();
+        GymSecretary gymSecretary = gym.getSecretary();
 
         Client c1 = gymSecretary.registerClient(p2);
         Client c2 = gymSecretary.registerClient(p3);
@@ -102,13 +103,13 @@ public class Main {
         }
 
         gymSecretary.notify(s4, "The instructor will be a few minutes late for the session");
-        gymSecretary.notify("01-01-2025", "Heavy traffic reported around the gym today. Plan ahead to avoid missing your session!");
-        gymSecretary.notify("Happy New Year to all our valued clients!");
+     //   gymSecretary.notify("01-01-2025", "Heavy traffic reported around the gym today. Plan ahead to avoid missing your session!");
+       // gymSecretary.notify("Happy New Year to all our valued clients!");
 
         gymSecretary.paySalaries();
 
         gym.setSecretary(p3,8000);
-        gym.management.gymSecretary newGymSecretary = gym.getSecretary();
+        GymSecretary newGymSecretary = gym.getSecretary();
 
         try{
             gymSecretary.registerClientToLesson(c1, s1);
