@@ -21,7 +21,7 @@ public class GymSecretary extends Person {
     Set<Instructor> instructors = Gym.getInstance().getInstructors();
     Set<Client> registeredClients = Gym.getInstance().getRegisteredClients();
     Set<Person> allPeople = Gym.getInstance().getAllPeople();
-
+//TODO מזכירה אקטיבית בלבד יכולה לבצע פעולות
 
     //constructor
     public GymSecretary(String nweS, double balance, Gender gender, String birthdayStr, double salary) {
@@ -46,6 +46,7 @@ public class GymSecretary extends Person {
 
     //Methods
     public Client registerClient(Person newC) throws DuplicateClientException, InvalidAgeException {
+        // fixme לא הדפסה, צריך להכניס ללוגר של הPERSON והמכון
         if (newC.getAge() < 18) {
             throw new InvalidAgeException("Error: Client must be at least 18 years old to register");
         }
@@ -57,23 +58,24 @@ public class GymSecretary extends Person {
         //Client newClient = new Client(newC.getName(), newC.getBalancePerson(), newC.getGender(), newC.getBirthday().toString());
         Client newClient = new Client(newC);
         registeredClients.add(newClient);
-        System.out.println("Registered new client: " + newClient.getAge());
+        System.out.println("Registered new client: " + newClient.getName());
         return newClient;
     }
 
-    public void unregisterClient(Client c2) throws ClientNotRegisteredException {
-        boolean id = false;
-        //if (!registeredClients.contains(c2)) {
+    public void unregisterClient(Client c) throws ClientNotRegisteredException {
+        boolean SameId = false;
         for (Client client : registeredClients) { //already client
-            if (client.getId() == c2.getId()) {
-                id = true;
+            if (client.getId() == c.getId()) {
+                SameId = true;
                 break;
             }
         }
-        if (!id) {
+        if (!SameId) {
             throw new ClientNotRegisteredException("Error: Registration is required before attempting to unregister");
+        } else {
+            registeredClients.remove(c);
+            System.out.println("Unregistered client: " + c.getName());
         }
-        registeredClients.remove(c2);
     }
 
     public Instructor hireInstructor(Person p, int salary, ArrayList<SessionType> qualifiedSTypes) {
@@ -93,7 +95,7 @@ public class GymSecretary extends Person {
         Instructor newInstructor = new Instructor(p.getName(), p.getBalance(), p.getGender(), p.getBirthdayStr(), salary, qualifiedSTypes);
         instructors.add(newInstructor);
         //FIXME logger + dateToString
-        System.out.println("Hired new instructor: " + p.getName() + " with salary per hour:" + salary);
+        System.out.println("Hired new instructor: " + p.getName() + " with salary per hour: " + salary);
         return newInstructor;
     }
 
@@ -105,25 +107,30 @@ public class GymSecretary extends Person {
         if (!i2.getQualifiedSTypes().contains(s)) {
             throw new InstructorNotQualifiedException("Error: Instructor is not qualified to conduct this session type.");
         }
-        if (!canAddSession(sessionDateTime)) {
-            System.out.println("Error: Cannot schedule session at " + sessionDateTime + ". There is already a session at this time.");
+        if (!canAddSession(sessionDateTime, i2)) {
+            System.out.println("Error: Cannot schedule session at " + sessionDateTime +
+                    ". Instructor is already teaching at this time.");
             return null;
         }
         Session newSession = SessionFactory.createSession(s, dateTimeStr, f, i2);
         newSession.setInstructor(i2);
         i2.incrementClassCount();
-        Gym.getInstance().getSession().add(newSession);
+        Gym.getInstance().setSessions(newSession);
+        System.out.println("Created new session: " + newSession.getSessionType().getName() + " on " + sessionDateTime + " with instructor: " + i2.getName());
+
         return newSession;
     }
 
 
-    public boolean canAddSession(LocalDateTime newStartTime) {
+    public boolean canAddSession(LocalDateTime newStartTime, Instructor instructor) {
         for (Session existingSession : sessions) {
             LocalDateTime existingStart = existingSession.getDateTime();
             LocalDateTime existingEnd = existingStart.plusHours(1); //1 hour per session
 
-            if (!newStartTime.isBefore(existingStart) && newStartTime.isBefore(existingEnd)) {
-                System.out.println("Failed registration: No available spots for session");
+            if (existingSession.getInstructor().equals(instructor) &&
+                    !newStartTime.isBefore(existingStart) && newStartTime.isBefore(existingEnd)) {
+                System.out.println("Failed registration: Instructor " + instructor.getName() +
+                        " already has a session at this time");
                 return false;
             }
         }
@@ -133,13 +140,26 @@ public class GymSecretary extends Person {
     public void registerClientToLesson(Client c, Session s)
             throws DuplicateClientException, ClientNotRegisteredException {
         //TODO. log.
-        //FIXME האם צריך להדפיס את כל השגיאות?
+        //FIXME לבדוק שכל השגיאות מודפסות
 
-        if (!c.getRole().equals("Client")) { //not client
-            throw new ClientNotRegisteredException("Error: The client is not registered with the gym and cannot enroll in lessons");
+        try {
+            if (!c.getRole().equals("Client")) { //not client}
+                throw new ClientNotRegisteredException("Error: The client is not registered with the gym and cannot enroll in lessons");
+            }
+        } catch (ClientNotRegisteredException e) {
+            System.out.println(e.getMessage());
         }
-        if (s.isParticipantRegistered(c)) {// already registered
-            throw new DuplicateClientException("Error: The client is already registered for this lesson");
+
+        try {
+            if (s.isParticipantRegistered(c)) { // already registered
+                throw new DuplicateClientException("Error: The client is already registered for this lesson");
+            }
+        } catch (DuplicateClientException e) {
+            System.out.println(e.getMessage());
+        }
+        if (!Gym.getInstance().getSession().contains(s)) {
+            System.out.println("no such lesson");
+            return;
         }
         if (s.isFull()) { //no place
             System.out.println("Failed registration: No available spots for session");
@@ -147,18 +167,30 @@ public class GymSecretary extends Person {
         //TODO localDATE
         if (s.getDateTime().isBefore(LocalDateTime.now())) { //check time
             System.out.println("Failed registration: Session is not in the future");
+            return;
         }
         //TODO if this work
-        if (!c.getForumC().contains(s.getSessionType())) {// forum
-            System.out.println("Failed registration: Client's gender doesn't match the session's gender requirements (" + s.getForumType() + ")");
+        if (!(s.getForumType() == ForumType.All)) {
+          //  if (s.getForumType()  == ForumType.Seniors)
+            for (ForumType forumType : c.getForumC()) {
+                if (forumType == s.getForumType()) {
+                    System.out.println("Failed registration: Client's gender doesn't match the session's gender requirements (" + s.getForumType() + ")");
+                }
+            }
         }
+//            if (!c.getForumC().contains(s.getSessionType())) {// forum
+//                System.out.println("Failed registration: Client's gender doesn't match the session's gender requirements (" + s.getForumType() + ")");
+
         if (s.getSessionType().getPrice() > c.getBalance()) { //not enough money
             System.out.println("Failed registration: Client doesn't have enough balance");
+        } else {
+            s.setParticipants(c);
+            c.setMyRegSession(s);
+            System.out.println("Registered client: " + c.getName() + " to session: " + s.getSessionType().getName() + " on " + s.getDateTime() + " for price: " + s.getSessionType().getPrice());
+            chargeClient(c, s.getSessionType().getPrice());
+            addToGym(s.getSessionType().getPrice());
         }
-        s.setParticipants(c);
-        System.out.println("Registered client: " + c.getName() + " to session: " + s.getSessionType() + " on 2025-01-14T20:00 for price: 150");
-        chargeClient(c, s.getSessionType().getPrice());
-        addToGym(s.getSessionType().getPrice());
+        //TODO אם הלקוח רשום לעוד שיעור באותה שעה
     }
 
     public void chargeClient(Client client, double amount) {

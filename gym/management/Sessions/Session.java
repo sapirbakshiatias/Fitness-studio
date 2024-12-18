@@ -13,20 +13,21 @@ public abstract class Session {
     private LocalDateTime sessionDateTime;
     private ForumType forumType;
     private Instructor instructor;
-    private double price;
+    private int price;
     private int maxParticipants;
     private List<Client> participants;
 
 
 
     public Session(SessionType sessionType, String dateTimeStr, ForumType forumType, Instructor instructor) {
+        this.sessionType = sessionType;
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
         this.sessionDateTime = LocalDateTime.parse(dateTimeStr, formatter); // המרה ממחרוזת ל-LocalDateTime
         this.forumType = forumType;
         this.instructor = instructor;
         this.price = sessionType.getPrice();
         this.maxParticipants = sessionType.getMaxParticipants();
-        List<Client> participants = new ArrayList<>();
+        this.participants =  new ArrayList<>();;
     }
 
     public LocalDateTime getDateTime() {
@@ -54,10 +55,10 @@ public abstract class Session {
     }
 
     public SessionType getSessionType() {
-        return sessionType;
+        return this.sessionType;
     }
     public List<Client> getParticipants() {
-        return participants;
+        return this.participants;
     }
 
     // Setter for participants
@@ -65,7 +66,7 @@ public abstract class Session {
         participants.add(c);
     }
     public boolean isParticipantRegistered(Client client) {
-        return participants.contains(client);
+        return this.participants.contains(client);
     }
 
     public boolean isFull() {

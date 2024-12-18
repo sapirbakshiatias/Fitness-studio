@@ -3,15 +3,14 @@ package gym.management.Sessions;
 import java.util.Objects;
 
 public class ForumType {
-    public static final ForumType All = new ForumType();
-    public static final ForumType Female = new ForumType();
-    public static final ForumType Seniors = new ForumType();
-    public static final ForumType Male = new ForumType();
-    private ForumType() {}
-    private String name;
+    public static final ForumType All = new ForumType("All");
+    public static final ForumType Female = new ForumType("Female");
+    public static final ForumType Seniors = new ForumType("Seniors");
+    public static final ForumType Male = new ForumType("Male");
+    private final String name;
 
     private ForumType(String name) {
-        this.name = name;
+        this.name = Objects.requireNonNull(name, "Name cannot be null");
     }
     @Override
     public boolean equals(Object o) {

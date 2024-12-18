@@ -7,10 +7,10 @@ public class SessionType {
     public static final SessionType Pilates = new SessionType("Pilates", 60, 30);
 
     private String name;
-    private double price;
+    private int price;
     private int maxParticipants;
 
-    private SessionType(String name, double price, int maxParticipants) {
+    private SessionType(String name, int price, int maxParticipants) {
         this.name = name;
         this.price = price;
         this.maxParticipants = maxParticipants;
@@ -19,12 +19,12 @@ public class SessionType {
         return name;
     }
 
-    public double getPrice() {
-        return price;
+    public int getPrice() {
+        return this.price;
     }
 
     public int getMaxParticipants() {
-        return maxParticipants;
+        return this.maxParticipants;
     }
 
     @Override

@@ -34,14 +34,13 @@ public class Gym {
 
     public void setName(String name) {
         this.name = name;
-        System.out.println("Gym Name: " + name);
     }
     public String getName() {
         return this.name;
     }
 
     public BalanceAccount getBalanceGym() {
-        return Gym.getInstance().getBalanceGym();}
+        return Gym.getInstance().gymAccount;}
 
     public void setSessions(Session s) {
         this.sessions.add(s);
@@ -80,7 +79,7 @@ public class Gym {
             return;
         }
         activeSecretary = new GymSecretary(newS, salary);
-        System.out.println("");
+        System.out.println("A new secretary has started working at the gym: " + newS.getName());
         //FIXME logger
     }
 

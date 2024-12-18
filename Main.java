@@ -72,23 +72,36 @@ public class Main {
         } catch (InstructorNotQualifiedException e) {
             System.out.println(e.getMessage());
         }
-
+        System.out.println("1");
         gymSecretary.registerClientToLesson(c1, s1);
+        System.out.println("2");
         gymSecretary.registerClientToLesson(c1, s2);
+        System.out.println("3");
         gymSecretary.registerClientToLesson(c1, s4);
+        System.out.println("4");
         gymSecretary.registerClientToLesson(c4, s4);
+        System.out.println("5");
         gymSecretary.registerClientToLesson(c1, s3);
+        System.out.println("6");
         gymSecretary.registerClientToLesson(c5, s2);
+        System.out.println("7");
         gymSecretary.registerClientToLesson(c5, s2);
 
+        System.out.println("8");
         gymSecretary.registerClientToLesson(c1, s5);
+        System.out.println("9");
         gymSecretary.registerClientToLesson(c2, s5);
+        System.out.println("10");
         gymSecretary.registerClientToLesson(c3, s5);
+        System.out.println("11");
         gymSecretary.registerClientToLesson(c4, s5);
+        System.out.println("12");
         gymSecretary.registerClientToLesson(c6, s5);
+        System.out.println("13");
         gymSecretary.registerClientToLesson(c7, s5);
 
 
+        System.out.println("14 DuplicateClientException");
         try{
             gymSecretary.registerClientToLesson(c1,s1);
         } catch (DuplicateClientException e) {

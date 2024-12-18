@@ -30,7 +30,9 @@ Registered client: Nofar to session: Pilates on 2025-01-23T10:00 for price: 60
 Failed registration: Session is not in the future
 Registered client: Nofar to session: ThaiBoxing on 2025-01-01T14:00 for price: 100
 Registered client: Yuval to session: ThaiBoxing on 2025-01-01T14:00 for price: 100
+*****
 Failed registration: Client doesn't meet the age requirements for this session (Seniors)
+
 Failed registration: Session is not in the future
 Failed registration: Client's gender doesn't match the session's gender requirements
 Failed registration: Client doesn't have enough balance
