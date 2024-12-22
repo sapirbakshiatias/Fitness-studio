@@ -3,6 +3,7 @@ package gym.management.Sessions;
 import java.util.Objects;
 
 public class ForumType {
+    //FIXME? ENUM
     public static final ForumType All = new ForumType("All");
     public static final ForumType Female = new ForumType("Female");
     public static final ForumType Seniors = new ForumType("Seniors");
@@ -20,13 +21,11 @@ public class ForumType {
         return Objects.equals(name, forumType.name); // השוואת שם הפורום
     }
 
-    // מחושב כך שאובייקטים עם אותו שם יקבלו אותו hashCode
     @Override
     public int hashCode() {
         return Objects.hash(name);
     }
 
-    // נציג את שם הפורום במקום הכתובת בזיכרון
     @Override
     public String toString() {
         return name;

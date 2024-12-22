@@ -2,20 +2,22 @@ package gym.management;
 
 import gym.customers.*;
 import gym.management.Sessions.Session;
-import gym.management.Sessions.SessionType;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class Gym {
     private static Gym instance;
     private String name;
-    private Set<Person> allPeople;
     private Set<Session> sessions;
     private Set<Instructor> instructors;
     private Set<Client> registeredClients;
     private static GymSecretary activeSecretary;
+    private List<GymSecretary> previousSecretaries;
     BalanceAccount gymAccount;
+
 
     //GYM
     private Gym() {
@@ -23,6 +25,7 @@ public class Gym {
         this.sessions = new HashSet<>();
         this.instructors = new HashSet<>();
         gymAccount = new BalanceAccount(0);
+        this.previousSecretaries = new ArrayList<>();
     }
 
     public static Gym getInstance() {
@@ -49,20 +52,18 @@ public class Gym {
         return this.sessions;
     }
 
-    public void setAllPeople(Person p) {
-        this.allPeople.add(p);
-    }
-    public Set<Person> getAllPeople() {
-        return this.allPeople;
-    }
-    public void setInstructors(Instructor i) {
+    public void addInstructors(Instructor i) {
         this.instructors.add(i);
+    } public void removeInstructors(Instructor i) {
+        this.instructors.remove(i);
     }
     public Set<Instructor> getInstructors() {
         return this.instructors;
     }
-    public void setRegisteredClients(Client c) {
+    public void addToRegisteredClients(Client c) {
         this.registeredClients.add(c);
+    }    public void removeFromRegisteredClients(Client c) {
+        this.registeredClients.remove(c);
     }
     public Set<Client> getRegisteredClients() {
         return this.registeredClients;
@@ -75,65 +76,30 @@ public class Gym {
 
     public void setSecretary(Person newS, int salary) {
         if (activeSecretary != null) {
-            System.out.println("There is already an active gym secretary.");
-            return;
+            removeActiveSecretary();
         }
         activeSecretary = new GymSecretary(newS, salary);
         System.out.println("A new secretary has started working at the gym: " + newS.getName());
         //FIXME logger
     }
-
-    public void removeSecretary() {
-        activeSecretary = null;
+    public void removeActiveSecretary() {
+            previousSecretaries.add(activeSecretary);
+            activeSecretary.revertToPreviousRole();
+            activeSecretary = null;
     }
-    public void paySecretary(GymSecretary gymSecretary) {
-        double salary = gymSecretary.getSalarySec();
-        BalanceAccount secretaryBalance = gymSecretary.getBalanceAccount();
 
-        secretaryBalance.deposit(salary); // העבר את המשכורת לחשבון של המאמן
-        gymAccount.withdraw(salary); // הורד את המשכורת מהמאזן של המכון
+    public void paySecretary(GymSecretary gymSecretary) {
+        int salary = gymSecretary.getSalarySec();
+        BalanceAccount secretaryBalance = gymSecretary.getBalancePerson_Account();
+
+        secretaryBalance.deposit(salary);
+        gymAccount.withdraw(salary);
         System.out.println("Paid Instructor: " + gymSecretary.getName() + " with salary " + salary);
     }
+    public boolean isActiveSecretary() {
+        return activeSecretary != null;
+    }
+    public static GymSecretary getActiveSecretary() {
+        return activeSecretary;
+    }
 }
-
-//package gym.management;
-//        import gym.customers.*;
-//
-//public class Gym {
-//    private static Gym instance;
-//
-//    // Adding balance field
-//    private double balance;
-//
-//    // Private constructor to prevent direct instantiation
-//    private Gym() {
-//        this.balance = 0.0; // Default balance is 0.0 when the gym is created
-//    }
-//
-//    // Singleton getInstance method
-//    public static Gym getInstance() {
-//        if (instance == null) {
-//            instance = new Gym();
-//        }
-//        return instance;
-//    }
-//
-//    private gymSecretary secretary;
-//
-//    public gymSecretary getSecretary() {
-//        return secretary;
-//    }
-//
-//    public void setSecretary(Person p1, int i) {
-//        this.secretary = new gymSecretary();
-//    }
-//
-//    // Getter for balance
-//    public double getBalance() {
-//        return balance;
-//    }
-//
-//    // Setter for balance
-//    public void setBalance(double balance) {
-//        this.balance = balance;
-

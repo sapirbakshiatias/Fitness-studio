@@ -72,36 +72,26 @@ public class Main {
         } catch (InstructorNotQualifiedException e) {
             System.out.println(e.getMessage());
         }
-        System.out.println("1");
         gymSecretary.registerClientToLesson(c1, s1);
-        System.out.println("2");
         gymSecretary.registerClientToLesson(c1, s2);
-        System.out.println("3");
         gymSecretary.registerClientToLesson(c1, s4);
-        System.out.println("4");
         gymSecretary.registerClientToLesson(c4, s4);
-        System.out.println("5");
         gymSecretary.registerClientToLesson(c1, s3);
+        ////not good
         System.out.println("6");
         gymSecretary.registerClientToLesson(c5, s2);
+        ////not good-same as 6
         System.out.println("7");
         gymSecretary.registerClientToLesson(c5, s2);
 
-        System.out.println("8");
         gymSecretary.registerClientToLesson(c1, s5);
-        System.out.println("9");
         gymSecretary.registerClientToLesson(c2, s5);
-        System.out.println("10");
         gymSecretary.registerClientToLesson(c3, s5);
-        System.out.println("11");
         gymSecretary.registerClientToLesson(c4, s5);
-        System.out.println("12");
         gymSecretary.registerClientToLesson(c6, s5);
-        System.out.println("13");
         gymSecretary.registerClientToLesson(c7, s5);
 
 
-        System.out.println("14 DuplicateClientException");
         try{
             gymSecretary.registerClientToLesson(c1,s1);
         } catch (DuplicateClientException e) {
@@ -114,11 +104,11 @@ public class Main {
         } catch (ClientNotRegisteredException e) {
             System.out.println(e.getMessage());
         }
-
+//עוד לא עשיתי
         gymSecretary.notify(s4, "The instructor will be a few minutes late for the session");
-     //   gymSecretary.notify("01-01-2025", "Heavy traffic reported around the gym today. Plan ahead to avoid missing your session!");
-       // gymSecretary.notify("Happy New Year to all our valued clients!");
-
+      //  gymSecretary.notify("01-01-2025", "Heavy traffic reported around the gym today. Plan ahead to avoid missing your session!");
+        //gymSecretary.notify("Happy New Year to all our valued clients!");
+//עד כאן
         gymSecretary.paySalaries();
 
         gym.setSecretary(p3,8000);

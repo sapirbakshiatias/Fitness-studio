@@ -1,12 +1,12 @@
 package gym.customers;
 public class BalanceAccount {
-    private double balance;
+    private int balance;
 
-    public BalanceAccount(double initialBalance) {
+    public BalanceAccount(int initialBalance) {
         this.balance = initialBalance;
     }
 
-    public void deposit(double amount) {
+    public void deposit(int amount) {
         if (amount > 0) {
             balance += amount;
         } else {
@@ -14,7 +14,7 @@ public class BalanceAccount {
         }
     }
 
-    public boolean withdraw(double amount) {
+    public boolean withdraw(int amount) {
         if (amount <= balance) {
             balance -= amount;
             return true;
@@ -24,7 +24,7 @@ public class BalanceAccount {
         }
     }
 
-    public double getBalance() {
+    public int getBalance() {
         return balance;
     }
 }

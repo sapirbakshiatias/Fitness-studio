@@ -26,16 +26,19 @@ Created new session: Pilates on 2025-01-25T09:30 with instructor: Noam
 Created new session: ThaiBoxing on 2025-01-01T14:00 with instructor: Yuval
 Created new session: Ninja on 2025-01-14T20:00 with instructor: Noam
 Created new session: ThaiBoxing on 2025-01-14T20:00 with instructor: Shachar
+
+
 Registered client: Nofar to session: Pilates on 2025-01-23T10:00 for price: 60
 Failed registration: Session is not in the future
 Registered client: Nofar to session: ThaiBoxing on 2025-01-01T14:00 for price: 100
 Registered client: Yuval to session: ThaiBoxing on 2025-01-01T14:00 for price: 100
-*****
 Failed registration: Client doesn't meet the age requirements for this session (Seniors)
 
+///  7 : 6+7 +8 אותו רידיפ עם 2בעיות, כל פעם מדפיסים בעיה אחרת
 Failed registration: Session is not in the future
 Failed registration: Client's gender doesn't match the session's gender requirements
 Failed registration: Client doesn't have enough balance
+
 Failed registration: Session is not in the future
 Failed registration: Client's gender doesn't match the session's gender requirements
 Failed registration: Client doesn't have enough balance
@@ -46,6 +49,7 @@ Registered client: Yuval to session: Ninja on 2025-01-14T20:00 for price: 150
 Registered client: Neta to session: Ninja on 2025-01-14T20:00 for price: 150
 Failed registration: No available spots for session
 Unregistered client: Maayan
+
 A message was sent to everyone registered for session ThaiBoxing on 2025-01-01T14:00 : The instructor will be a few minutes late for the session
 A message was sent to everyone registered for a session on 2025-01-01 : Heavy traffic reported around the gym today. Plan ahead to avoid missing your session!
 A message was sent to all gym clients: Happy New Year to all our valued clients!

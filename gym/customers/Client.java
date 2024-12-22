@@ -13,8 +13,10 @@ import java.util.logging.Logger;
 public class Client extends Person implements Observer {
     private static final Logger logger = Logger.getLogger(Client.class.getName());  // Create a Logger instance
     private List<ForumType> clientForum;
-    private  List<String> notifications; // List to store client notifications
-    private List<Session> enrolledSessions;
+    private List<String> notifications; // List to store client notifications
+    private List<Session> myRegisteredSession;
+
+
     public Client(Person newC) throws InvalidAgeException {
         super(newC);
         if (getAge() < 18) {
@@ -22,12 +24,13 @@ public class Client extends Person implements Observer {
         }
         this.notifications = new ArrayList<>();
         this.clientForum = new ArrayList<>();
-        this.enrolledSessions = new ArrayList<>();
-
+        this.myRegisteredSession = new ArrayList<>();
+        this.setRole("Client");
+        this.setRegistered(true);
         setForumC();
     }
 
-    public void setForumC() throws InvalidAgeException {
+    public void setForumC() {
         if (this.getAge() >= 65) {
             clientForum.add(ForumType.Seniors);
         }
@@ -40,9 +43,18 @@ public class Client extends Person implements Observer {
         clientForum.add(ForumType.All);
     }
 
+    public void clearClientData() {
+        this.notifications.clear();
+        this.clientForum.clear();
+        //   this.myRegisteredSession.clear();
+        this.setRegistered(false);
+        this.setRole("Person");
+    }
+
+
     @Override
     public String getRole() {
-        return "Client";
+        return super.getRole();
     }
 
     @Override
@@ -60,4 +72,13 @@ public class Client extends Person implements Observer {
     public List<ForumType> getForumC() {
         return this.clientForum;
     }
+
+    public List<Session> getMyRegSession() {
+        return this.myRegisteredSession;
+    }
+
+    public void setMyRegSession(Session s) {
+        this.myRegisteredSession.add(s);
+    }
+
 }
