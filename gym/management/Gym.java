@@ -1,6 +1,7 @@
 package gym.management;
 
 import gym.customers.*;
+import gym.management.Sessions.Secretary;
 import gym.management.Sessions.Session;
 
 import java.util.ArrayList;
@@ -14,7 +15,7 @@ public class Gym {
     private Set<Session> sessions;
     private Set<Instructor> instructors;
     private Set<Client> registeredClients;
-    private static GymSecretary activeSecretary;
+    private GymSecretary activeSecretary;
     private List<GymSecretary> previousSecretaries;
     BalanceAccount gymAccount;
 
@@ -34,6 +35,7 @@ public class Gym {
         }
         return instance;
     }
+
 
     public void setName(String name) {
         this.name = name;
@@ -74,14 +76,21 @@ public class Gym {
         return activeSecretary;
     }
 
-    public void setSecretary(Person newS, int salary) {
-        if (activeSecretary != null) {
+    public GymSecretary setSecretary(Person person, int salary){
+        if (previousSecretaries.contains(person)) {
+            if (activeSecretary != null) {
+                activeSecretary.setActive(false);}
             removeActiveSecretary();
+
         }
-        activeSecretary = new GymSecretary(newS, salary);
-        System.out.println("A new secretary has started working at the gym: " + newS.getName());
+
+        activeSecretary = new GymSecretary(new Secretary(person, salary));
+        activeSecretary.activate();
+        System.out.println("A new secretary has started working at the gym: " + person.getName());
         //FIXME logger
     }
+
+
     public void removeActiveSecretary() {
             previousSecretaries.add(activeSecretary);
             activeSecretary.revertToPreviousRole();
@@ -98,6 +107,13 @@ public class Gym {
     }
     public boolean isActiveSecretary() {
         return activeSecretary != null;
+    }
+    public boolean isActive() {
+        return this.isActive;
+    }
+
+    public void setActive(boolean active) {
+        this.isActive = active;
     }
     public static GymSecretary getActiveSecretary() {
         return activeSecretary;

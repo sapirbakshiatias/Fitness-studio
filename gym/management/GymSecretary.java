@@ -13,49 +13,45 @@ import java.util.Set;
 import java.util.logging.Logger;
 
 //FIXME להפריד בין יצירת מזיכרה, כמו CLIENT, לבין תפקיד המזכירה
-public class GymSecretary extends Person {
+public class GymSecretary {
     private int salary;
     private SalaryManager salaryManager = new SalaryManager();
     private static final Logger logger = Logger.getLogger(Gym.class.getName());
-    private String originalRole;
+    private Secretary secretary;
+    private boolean isActive;
 
 //TODO מזכירה אקטיבית בלבד יכולה לבצע פעולות
 
-    //constructor
-//    public GymSecretary(String nweS, int balance, Gender gender, String birthdayStr, int salary) {
-//        super(nweS, balance, gender, birthdayStr);
-//        this.salary = salary;
-//        this.originalRole = "Client";
-//        setRole("Secretary");
-//    }
-
-    public GymSecretary(Person person, int salary) {
-        super(person);
-        this.salary = salary;
-        this.originalRole = person.getRole();
-        setRole("Secretary");
+    public GymSecretary(Secretary secretary)  {
+        this.secretary = secretary;
+        this.isActive = true;
+    }
+    public Secretary getSecretary() {
+        return secretary;
     }
 
-    public void revertToPreviousRole() {
-        if (this.getOriginalRole().equals("Client")) {
-            this.setRole("Client");
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void activate() {
+        this.isActive = true;
+        System.out.println("Secretary " + secretary.getName() + " is now active.");
+    }
+
+    public void deactivate() {
+        this.isActive = false;
+        System.out.println("Secretary " + secretary.getName() + " is now inactive.");
+    }
+
+    public void performAction() {
+        if (isActive) {
+            // FIXME: Implement the action logic here - Added by assistant
+            System.out.println("Performing action as the active secretary.");
         } else {
-            this.setRole("Person");
-            //מאמן
-            //אולי חוזרת להיות פשוט מזכירה רגילה שלא אקטיבית?
+            System.out.println("Action denied. Secretary is not active.");
         }
     }
-
-    //Get and Set
-    public int getSalarySec() {
-        return this.salary;
-    }
-
-    public void setSalarySec(int salary) {
-        this.salary = salary;
-    }
-
-
     //Methods
     public Client registerClient(Person newC) throws DuplicateClientException, InvalidAgeException {
         // fixme לא הדפסה, צריך להכניס ללוגר של הPERSON והמכון
@@ -269,10 +265,10 @@ public class GymSecretary extends Person {
         //TODO
     }
 
-    public String getOriginalRole() {
-        return this.originalRole;
+    public void setActive(boolean isActive) {
+    isActive = isActive;
     }
-}
+
 
 //    }
 //
