@@ -7,8 +7,10 @@ import java.time.format.DateTimeFormatter;
 import java.time.Period;
 import java.util.List;
 import java.util.Objects;
+import java.util.logging.Logger;
 
 public class Person {
+
     private String name;
     private BalanceAccount balanceAccount;
     private Gender gender;
@@ -28,6 +30,7 @@ public class Person {
         this.id = nextId++;
         this.role = "Person";
         this.setRegistered(false);
+
     }
     public Person(Person other) {
         this.name = other.name;
@@ -38,6 +41,8 @@ public class Person {
         this.role = "Person";
         this.isRegistered = false;
     }
+
+
     public String getName() {
         return this.name;   }
 

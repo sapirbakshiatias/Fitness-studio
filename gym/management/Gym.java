@@ -1,7 +1,6 @@
 package gym.management;
 
 import gym.customers.*;
-import gym.management.Sessions.Secretary;
 import gym.management.Sessions.Session;
 
 import java.util.ArrayList;
@@ -15,8 +14,8 @@ public class Gym {
     private Set<Session> sessions;
     private Set<Instructor> instructors;
     private Set<Client> registeredClients;
-    private GymSecretary activeSecretary;
-    private List<GymSecretary> previousSecretaries;
+    private static Secretary activeSecretary;
+    private List<Secretary> previousSecretaries;
     BalanceAccount gymAccount;
 
 
@@ -40,64 +39,68 @@ public class Gym {
     public void setName(String name) {
         this.name = name;
     }
+
     public String getName() {
         return this.name;
     }
 
     public BalanceAccount getBalanceGym() {
-        return Gym.getInstance().gymAccount;}
+        return Gym.getInstance().gymAccount;
+    }
 
     public void setSessions(Session s) {
         this.sessions.add(s);
+
     }
+
     public Set<Session> getSession() {
         return this.sessions;
     }
 
     public void addInstructors(Instructor i) {
         this.instructors.add(i);
-    } public void removeInstructors(Instructor i) {
+    }
+
+    public void removeInstructors(Instructor i) {
         this.instructors.remove(i);
     }
+
     public Set<Instructor> getInstructors() {
         return this.instructors;
     }
+
     public void addToRegisteredClients(Client c) {
         this.registeredClients.add(c);
-    }    public void removeFromRegisteredClients(Client c) {
+    }
+
+    public void removeFromRegisteredClients(Client c) {
         this.registeredClients.remove(c);
     }
+
     public Set<Client> getRegisteredClients() {
         return this.registeredClients;
     }
 
     //SECRETERY
-    public GymSecretary getSecretary() {
+    public Secretary getSecretary() {
         return activeSecretary;
     }
 
-    public GymSecretary setSecretary(Person person, int salary){
-        if (previousSecretaries.contains(person)) {
-            if (activeSecretary != null) {
-                activeSecretary.setActive(false);}
+    public void setSecretary(Person newS, int salary) {
+        if (activeSecretary != null) {
             removeActiveSecretary();
-
         }
-
-        activeSecretary = new GymSecretary(new Secretary(person, salary));
-        activeSecretary.activate();
-        System.out.println("A new secretary has started working at the gym: " + person.getName());
-        //FIXME logger
+        activeSecretary = new Secretary(newS, salary);
+        GymActions.addAction("A new secretary has started working at the gym: " + newS.getName());
     }
-
 
     public void removeActiveSecretary() {
-            previousSecretaries.add(activeSecretary);
-            activeSecretary.revertToPreviousRole();
-            activeSecretary = null;
+        previousSecretaries.add(activeSecretary);
+        activeSecretary.revertToPreviousRole();
+        activeSecretary = null;
     }
 
-    public void paySecretary(GymSecretary gymSecretary) {
+    public void paySecretary(Secretary gymSecretary) {
         int salary = gymSecretary.getSalarySec();
         BalanceAccount secretaryBalance = gymSecretary.getBalancePerson_Account();
 
@@ -105,17 +108,19 @@ public class Gym {
         gymAccount.withdraw(salary);
         System.out.println("Paid Instructor: " + gymSecretary.getName() + " with salary " + salary);
     }
+
     public boolean isActiveSecretary() {
         return activeSecretary != null;
     }
-    public boolean isActive() {
-        return this.isActive;
+
+    public static Secretary getActiveSecretary() {
+        return activeSecretary;
     }
 
-    public void setActive(boolean active) {
-        this.isActive = active;
-    }
-    public static GymSecretary getActiveSecretary() {
-        return activeSecretary;
+    @Override
+    public String toString() {
+        // Delegate the responsibility to GymLogger
+        GymInfo.outGymInfo(this);
+        return "";
     }
 }

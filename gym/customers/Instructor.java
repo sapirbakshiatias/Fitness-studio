@@ -1,8 +1,8 @@
 package gym.customers;
+
 import gym.management.Sessions.Session;
 import gym.management.Sessions.SessionType;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,12 +43,15 @@ public class Instructor extends Person {
     public List<SessionType> getQualifiedSTypes() {
         return qualifiedSTypes;
     }
+
     public List<Session> getSessionsOfInstructor() {
         return sessionsOfInstructor;
     }
+
     public void addSessionsOfInstructor(Session session) {
         sessionsOfInstructor.add(session);
     }
+
     public void removeSessionsOfInstructor(Session session) {
         sessionsOfInstructor.remove(session);
     }
@@ -57,9 +60,11 @@ public class Instructor extends Person {
     public void setQualifiedSTypes(List<SessionType> qualifiedSTypes) {
         this.qualifiedSTypes = qualifiedSTypes;
     }
+
     public void incrementClassCount() {
         numberOfClasses++;
     }
+
     public int getNumberOfClasses() {
         return numberOfClasses;
     }
@@ -69,4 +74,26 @@ public class Instructor extends Person {
         return "Instructor"; // Specific role for Instructor
     }
 
-}
+    public int getSalaryPerHour() {
+            if (salary == 0) {
+                return 0;
+            }
+            if(getNumberOfClasses() == 0)
+                return 0;
+        return salary / getNumberOfClasses();
+    }
+
+    @Override
+    public String toString() {
+        // Create a string to hold the list of qualified session types
+        StringBuilder qualifiedTypesName = new StringBuilder();
+        for (SessionType type : qualifiedSTypes) {
+            qualifiedTypesName.append(type.getName()).append(", ");} // Adding each session type name
+
+
+            return "ID: " + super.getId() + " | Name: " + super.getName() + " | Gender: " + super.getGender() +
+                    " | Birthday: " + super.getBirthday() + " | Age: " + super.getAge() + " | Balance: " + getBalanceInt() +
+                    " | Role: " + super.getRole() + " | Salary per Hour: " + getSalaryPerHour() +
+                    " | Certified Classes: " + qualifiedTypesName;
+        }
+    }

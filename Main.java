@@ -19,12 +19,11 @@ public class Main {
 
         Person p9 = new Person("Dani", 850, Gender.Male, "03-10-2015");
 
-
         Gym gym = Gym.getInstance();
         gym.setName("CrossFit");
         gym.setSecretary(p1, 9000);
 
-        GymSecretary gymSecretary = gym.getSecretary();
+        Secretary gymSecretary = gym.getSecretary();
 
         Client c1 = gymSecretary.registerClient(p2);
         Client c2 = gymSecretary.registerClient(p3);
@@ -72,16 +71,13 @@ public class Main {
         } catch (InstructorNotQualifiedException e) {
             System.out.println(e.getMessage());
         }
+
         gymSecretary.registerClientToLesson(c1, s1);
         gymSecretary.registerClientToLesson(c1, s2);
         gymSecretary.registerClientToLesson(c1, s4);
         gymSecretary.registerClientToLesson(c4, s4);
         gymSecretary.registerClientToLesson(c1, s3);
-        ////not good
-        System.out.println("6");
         gymSecretary.registerClientToLesson(c5, s2);
-        ////not good-same as 6
-        System.out.println("7");
         gymSecretary.registerClientToLesson(c5, s2);
 
         gymSecretary.registerClientToLesson(c1, s5);
@@ -104,15 +100,15 @@ public class Main {
         } catch (ClientNotRegisteredException e) {
             System.out.println(e.getMessage());
         }
-//עוד לא עשיתי
+
         gymSecretary.notify(s4, "The instructor will be a few minutes late for the session");
-      //  gymSecretary.notify("01-01-2025", "Heavy traffic reported around the gym today. Plan ahead to avoid missing your session!");
-        //gymSecretary.notify("Happy New Year to all our valued clients!");
-//עד כאן
+        gymSecretary.notify("01-01-2025", "Heavy traffic reported around the gym today. Plan ahead to avoid missing your session!");
+        gymSecretary.notify("Happy New Year to all our valued clients!");
+
         gymSecretary.paySalaries();
 
         gym.setSecretary(p3,8000);
-        GymSecretary newGymSecretary = gym.getSecretary();
+        Secretary newGymSecretary = gym.getSecretary();
 
         try{
             gymSecretary.registerClientToLesson(c1, s1);
