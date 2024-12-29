@@ -11,6 +11,8 @@ public class Notify {
         if (session != null && notification != null) {
 
             for (Client client : session.getParticipants()) {
+                //fixme
+                //session.sendNotificationToParticipants(notification);
                 NotificationService.sendNotification(client, notification);
                 client.addNotificationToHistory(notification);
 

@@ -15,14 +15,10 @@ public class BalanceAccount {
     }
 
     public boolean withdraw(int amount) {
-        if (amount <= balance) {
             balance -= amount;
             return true;
-        } else {
-            System.out.println("Not enough balance");
-            return false;
         }
-    }
+
 
     public int getBalance() {
         return balance;

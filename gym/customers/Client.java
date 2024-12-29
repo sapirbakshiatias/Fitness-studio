@@ -15,7 +15,6 @@ public class Client implements Observer {
     private static final Logger logger = Logger.getLogger(Client.class.getName());  // Create a Logger instance
     private List<ForumType> clientForum;
     private List<Session> myRegisteredSession;
-    // **
     private List<String> notifications;
     public Client(Person person) throws InvalidAgeException {
         if (person.getAge() < 18) {

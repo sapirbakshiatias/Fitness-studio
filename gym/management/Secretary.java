@@ -218,8 +218,10 @@ public class Secretary extends Subject {
 
     private boolean isClientDoubleBooked(Client client, Session session) {
         for (Session existingSession : client.getRegisteredSessions()) {
+            if (existingSession.equals(session)) {
+                continue;
+            }
             if (existingSession.getDateTime().equals(session.getDateTime())) {
-                //FIXME
                 System.out.println("Error: Client is already registered for another session at this time");
                 return true;
             }

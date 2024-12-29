@@ -34,7 +34,6 @@ Registered client: Nofar to session: ThaiBoxing on 2025-01-01T14:00 for price: 1
 Registered client: Yuval to session: ThaiBoxing on 2025-01-01T14:00 for price: 100
 Failed registration: Client doesn't meet the age requirements for this session (Seniors)
 
-///  7 : 6+7 +8 אותו רידיפ עם 2בעיות, כל פעם מדפיסים בעיה אחרת
 Failed registration: Session is not in the future
 Failed registration: Client's gender doesn't match the session's gender requirements
 Failed registration: Client doesn't have enough balance

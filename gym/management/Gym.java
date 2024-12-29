@@ -49,10 +49,6 @@ public class Gym {
     }
 
     public void deductFromGymBalance(int amount) {
-        if (gymAccount.getBalance() < amount) {
-            System.out.println("Error: Not enough funds in gym balance.");
-            return;
-        }
         gymAccount.withdraw(amount);
     }
 
