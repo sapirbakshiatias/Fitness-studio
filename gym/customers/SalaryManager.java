@@ -4,7 +4,6 @@ package gym.customers;
         public int calculateSalary(Instructor instructor, int numOfSessions) {
             return (instructor.getHourlySalary() * numOfSessions) ;
         }
-
     }
 
 
