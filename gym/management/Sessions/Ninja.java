@@ -10,10 +10,9 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
-public class Ninja extends Session {
-
+class Ninja extends Session {
     public Ninja(SessionType sessionType, String dateTimeStr, ForumType forumType, Instructor instructor) {
-        super(SessionType.Ninja, dateTimeStr, forumType, instructor);
+        super(sessionType, dateTimeStr, forumType, instructor);
     }
 }
 

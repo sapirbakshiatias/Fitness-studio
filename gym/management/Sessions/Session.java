@@ -1,11 +1,11 @@
 package gym.management.Sessions;
 
 import gym.customers.*;
+import gym.management.NotificationService;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public abstract class Session {
@@ -16,6 +16,7 @@ public abstract class Session {
     private int price;
     private int maxParticipants;
     private List<Client> participants;
+    private NotificationService messageSender;
 
 
 
@@ -27,7 +28,14 @@ public abstract class Session {
         this.instructor = instructor;
         this.price = sessionType.getPrice();
         this.maxParticipants = sessionType.getMaxParticipants();
-        this.participants =  new ArrayList<>();;
+        this.participants =  new ArrayList<>();
+        this.messageSender = messageSender;
+    }
+    public boolean isForumCompatible(Client client) {
+        if (forumType == ForumType.All) return true;
+        if (forumType == ForumType.Male && client.getPerson().getGender() == Gender.Male) return true;
+        if (forumType == ForumType.Female && client.getPerson().getGender() == Gender.Female) return true;
+        return false;
     }
 
     public LocalDateTime getDateTime() {
@@ -49,6 +57,9 @@ public abstract class Session {
     public Instructor getInstructor() {
         return instructor;
     }
+    public void setParticipants(Client client) {
+        participants.add(client);
+    }
 
     public void setInstructor(Instructor instructor) {
         this.instructor = instructor;
@@ -60,13 +71,8 @@ public abstract class Session {
     public List<Client> getParticipants() {
         return this.participants;
     }
-
-    // Setter for participants
-    public void setParticipants(Client c) {
-        participants.add(c);
-    }
     public boolean isParticipantRegistered(Client client) {
-        return this.participants.contains(client);
+        return participants.contains(client);
     }
 
     public boolean isFull() {
@@ -74,8 +80,21 @@ public abstract class Session {
     }
 
     public void addParticipant(Client client) {
-        if (!isFull() && !isParticipantRegistered(client)) {
             participants.add(client);
+        }
+    public int numOfParticipant() {
+        return participants.size();
+    }
+    @Override
+    public String toString() {
+        return "Session Type: " + getSessionType().getName() + " | Date: " + sessionDateTime + " | Forum: " + getForumType() +
+                " | Instructor: " + getInstructor().getName() + " | Participants: " + numOfParticipant() + "/" + maxParticipants;
+    }
+    public void sendNotificationToParticipants(String messageContent) {
+        for (Client client : participants) {
+            // Send message to each participant
+            messageSender.sendNotification(client, messageContent);
+
         }
     }
 }

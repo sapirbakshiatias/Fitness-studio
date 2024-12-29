@@ -1,7 +1,7 @@
 package gym.customers;
 
-import gym.Exception.DuplicateClientException;
 import gym.Exception.InvalidAgeException;
+import gym.management.Observer;
 import gym.management.Sessions.ForumType;
 import gym.management.Sessions.Session;
 
@@ -10,75 +10,91 @@ import java.util.List;
 import java.util.logging.Logger;
 
 
-public class Client extends Person implements Observer {
+public class Client implements Observer {
+    private Person person;
     private static final Logger logger = Logger.getLogger(Client.class.getName());  // Create a Logger instance
     private List<ForumType> clientForum;
-    private List<String> notifications; // List to store client notifications
     private List<Session> myRegisteredSession;
-
-
-    public Client(Person newC) throws InvalidAgeException {
-        super(newC);
-        if (getAge() < 18) {
+    // **
+    private List<String> notifications;
+    public Client(Person person) throws InvalidAgeException {
+        if (person.getAge() < 18) {
             throw new InvalidAgeException("Error: Client must be at least 18 years old to register ");
         }
+        this.person = person;
         this.notifications = new ArrayList<>();
         this.clientForum = new ArrayList<>();
         this.myRegisteredSession = new ArrayList<>();
-        this.setRole("Client");
-        this.setRegistered(true);
+        //this.setRole("Client");
+        // **
+        this.notifications = new ArrayList<>();
         setForumC();
+    }
+    public Person getPerson() {
+        return person;
     }
 
     public void setForumC() {
-        if (this.getAge() >= 65) {
+        if (person.getAge() >= 65) {
             clientForum.add(ForumType.Seniors);
         }
-        if (this.getGender() == Gender.Male) {
+        if (person.getGender() == Gender.Male) {
             clientForum.add(ForumType.Male);
         }
-        if (this.getGender() == Gender.Female) {
+        if (person.getGender() == Gender.Female) {
             clientForum.add(ForumType.Female);
         }
         clientForum.add(ForumType.All);
     }
 
     public void clearClientData() {
-        this.notifications.clear();
         this.clientForum.clear();
         //   this.myRegisteredSession.clear();
-        this.setRegistered(false);
-        this.setRole("Person");
+        this.myRegisteredSession.clear();
+      //  this.setRegistered(false);
+        //this.setRole("Person");
+        //**fixme
+        this.notifications.clear();
     }
 
-
-    @Override
-    public String getRole() {
-        return super.getRole();
+    public String getName() {
+        return person.getName();
     }
-
-    @Override
-    public void update(String message) {
-        // Add the message to the list of notifications and log it
-        this.notifications.add(message);
-        logger.info("Notification for " + getName() + ": " + message);
-    }
-
-    public List<String> getNotifications() {
-        return notifications; // Return the list of notifications
-    }
-
+//    public String getRole() {
+//        return person.getRole();
+//    }
+public BalanceAccount getBalanceAccount() {
+    return person.getBalanceAccount();
+}
 
     public List<ForumType> getForumC() {
         return this.clientForum;
     }
 
-    public List<Session> getMyRegSession() {
+    public List<Session> getRegisteredSessions() {
         return this.myRegisteredSession;
     }
 
-    public void setMyRegSession(Session s) {
+    public void addRegisteredSession(Session s) {
         this.myRegisteredSession.add(s);
     }
 
+    @Override
+    public String toString() {
+        return "ID: " + person.getId() + " | Name: " + person.getName() + " | Gender: " + person.getGender() +
+                " | Birthday: " + person.getBirthDate() + " | Age: " + person.getAge() + " | Balance: " + person.getBalanceAccount().getBalance();
+    }
+
+    public void addNotificationToHistory(String message) {
+        notifications.add(message);
+    }
+
+    public List<String> getNotifications() {
+        return notifications;
+    }
+
+    @Override
+    public void update(String message) {
+        notifications.add(message);
+    }
 }

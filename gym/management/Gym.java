@@ -1,7 +1,6 @@
 package gym.management;
 
 import gym.customers.*;
-import gym.management.Sessions.Secretary;
 import gym.management.Sessions.Session;
 
 import java.util.ArrayList;
@@ -10,21 +9,18 @@ import java.util.List;
 import java.util.Set;
 
 public class Gym {
-    private static Gym instance;
+    private static Gym instance = null;
     private String name;
-    private Set<Session> sessions;
-    private Set<Instructor> instructors;
-    private Set<Client> registeredClients;
-    private GymSecretary activeSecretary;
-    private List<GymSecretary> previousSecretaries;
+    private List<Client> clients = new ArrayList<>();
+    private List<Instructor> instructors = new ArrayList<>();
+    private List<Session> sessions = new ArrayList<>();
+    private static Secretary activeSecretary;
+    private List<Secretary> previousSecretaries;
     BalanceAccount gymAccount;
 
 
     //GYM
     private Gym() {
-        this.registeredClients = new HashSet<>();
-        this.sessions = new HashSet<>();
-        this.instructors = new HashSet<>();
         gymAccount = new BalanceAccount(0);
         this.previousSecretaries = new ArrayList<>();
     }
@@ -40,82 +36,97 @@ public class Gym {
     public void setName(String name) {
         this.name = name;
     }
+
     public String getName() {
         return this.name;
     }
 
     public BalanceAccount getBalanceGym() {
-        return Gym.getInstance().gymAccount;}
+        return Gym.getInstance().gymAccount;
+    }
+    public void addToGymBalance(int amount) {
+        gymAccount.deposit(amount);
+    }
+
+    public void deductFromGymBalance(int amount) {
+        if (gymAccount.getBalance() < amount) {
+            System.out.println("Error: Not enough funds in gym balance.");
+            return;
+        }
+        gymAccount.withdraw(amount);
+    }
+
+    public void addSession(Session session) {
+        sessions.add(session);
+    }
 
     public void setSessions(Session s) {
         this.sessions.add(s);
+
     }
-    public Set<Session> getSession() {
+
+    public List<Session> getSessions() {
         return this.sessions;
     }
 
-    public void addInstructors(Instructor i) {
+    public void addInstructor(Instructor i) {
         this.instructors.add(i);
-    } public void removeInstructors(Instructor i) {
+    }
+
+    public void removeInstructors(Instructor i) {
         this.instructors.remove(i);
     }
-    public Set<Instructor> getInstructors() {
+
+    public List<Instructor> getInstructors() {
         return this.instructors;
     }
-    public void addToRegisteredClients(Client c) {
-        this.registeredClients.add(c);
-    }    public void removeFromRegisteredClients(Client c) {
-        this.registeredClients.remove(c);
+
+    public void addClient(Client client) {
+        clients.add(client);
     }
-    public Set<Client> getRegisteredClients() {
-        return this.registeredClients;
+
+    public void removeFromRegisteredClients(Client c) {
+        this.clients.remove(c);
+    }
+
+    public List<Client> getClients() {
+        return this.clients;
     }
 
     //SECRETERY
-    public GymSecretary getSecretary() {
+    public Secretary getSecretary() {
         return activeSecretary;
     }
 
-    public GymSecretary setSecretary(Person person, int salary){
-        if (previousSecretaries.contains(person)) {
-            if (activeSecretary != null) {
-                activeSecretary.setActive(false);}
-            removeActiveSecretary();
-
-        }
-
-        activeSecretary = new GymSecretary(new Secretary(person, salary));
-        activeSecretary.activate();
-        System.out.println("A new secretary has started working at the gym: " + person.getName());
-        //FIXME logger
-    }
-
-
-    public void removeActiveSecretary() {
-            previousSecretaries.add(activeSecretary);
-            activeSecretary.revertToPreviousRole();
+    public void setSecretary(Person person, int salary) {
+        if (activeSecretary != null) {
             activeSecretary = null;
+        }
+        activeSecretary = new Secretary(person, salary);
+        GymActions.addAction("A new secretary has started working at the gym: " + person.getName());
     }
 
-    public void paySecretary(GymSecretary gymSecretary) {
-        int salary = gymSecretary.getSalarySec();
-        BalanceAccount secretaryBalance = gymSecretary.getBalancePerson_Account();
 
-        secretaryBalance.deposit(salary);
-        gymAccount.withdraw(salary);
-        System.out.println("Paid Instructor: " + gymSecretary.getName() + " with salary " + salary);
-    }
+
+
     public boolean isActiveSecretary() {
         return activeSecretary != null;
     }
-    public boolean isActive() {
-        return this.isActive;
+
+    private boolean isThisActiveSecretary() {
+        return this.equals(Gym.getInstance().getActiveSecretary());
+    }
+    public Secretary getActiveSecretary() {
+        if (activeSecretary == null) {
+            throw new IllegalStateException("No active secretary at the moment.");
+        }
+        return activeSecretary;
     }
 
-    public void setActive(boolean active) {
-        this.isActive = active;
-    }
-    public static GymSecretary getActiveSecretary() {
-        return activeSecretary;
+    @Override
+    public String toString() {
+        // Delegate the responsibility to GymLogger
+        GymInfo.outGymInfo(this);
+        return "";
     }
 }

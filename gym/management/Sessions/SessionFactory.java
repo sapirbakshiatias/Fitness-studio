@@ -1,28 +1,29 @@
 package gym.management.Sessions;
 
 import gym.customers.Instructor;
+import gym.management.Sessions.*;
 
-import java.time.LocalDateTime;
-import java.util.Date;
+
+import java.util.Map;
 
 public class SessionFactory {
+    private static final Map<SessionType, Class<? extends Session>> sessionMap = Map.of(
+            SessionType.Ninja, Ninja.class,
+            SessionType.Pilates, Pilates.class,
+            SessionType.MachinePilates, MachinePilates.class,
+            SessionType.ThaiBoxing, ThaiBoxing.class
+    );
+
     public static Session createSession(SessionType sessionType, String dateTimeStr, ForumType forumType, Instructor instructor) {
-        if (sessionType == SessionType.Ninja) {
-            return new Ninja(sessionType, dateTimeStr, forumType, instructor);
-        } else if (sessionType == SessionType.Pilates) {
-            return new Pilates(sessionType, dateTimeStr, forumType, instructor);
-        } else if (sessionType == SessionType.MachinePilates) {
-            return new MachinePilates(sessionType, dateTimeStr, forumType, instructor);
-        } else if (sessionType == SessionType.ThaiBoxing) {
-            return new ThaiBoxing(sessionType, dateTimeStr, forumType, instructor);
+        Class<? extends Session> sessionClass = sessionMap.get(sessionType);
+        if (sessionClass == null) {
+            throw new IllegalArgumentException("Invalid session type: " + sessionType.getName());
         }
-        throw new IllegalArgumentException("Invalid session type: " + sessionType);
+        try {
+            var constructor = sessionClass.getConstructor(SessionType.class, String.class, ForumType.class, Instructor.class);
+            return constructor.newInstance(sessionType, dateTimeStr, forumType, instructor);
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to create session", e);
+        }
     }
 }
-
-
-
-
-
-
-
