@@ -59,6 +59,7 @@ public class Instructor {
 
     public void addSessionsOfInstructor(Session session) {
         sessionsOfInstructor.add(session);
+        numberOfClasses++;
     }
 
     public void removeSessionsOfInstructor(Session session) {

@@ -113,8 +113,6 @@ public class Secretary extends Subject {
         }
         Session session = SessionFactory.createSession(type, date, forum, instructor);
         Gym.getInstance().addSession(session);
-        //FIXME- כשמוסיפים שיעור בפונקציה, להוסיף ב1
-        instructor.incrementClassCount();
         instructor.addSessionsOfInstructor(session);
         String action = "Created new session: " + type.getName() + " on " + date + " with instructor: " + instructor.getPerson().getName();
         GymActions.addAction(action);
