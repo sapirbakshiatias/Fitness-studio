@@ -95,9 +95,12 @@ public class Instructor implements Observer {
     public String toString() {
         // Create a string to hold the list of qualified session types
         StringBuilder qualifiedTypesName = new StringBuilder();
-        for (SessionType type : qualifiedSTypes) {
-            qualifiedTypesName.append(type.getName()).append(", ");
-        } // Adding each session type name
+        for (int i = 0; i < qualifiedSTypes.size(); i++) {
+            qualifiedTypesName.append(qualifiedSTypes.get(i).getName());
+            if (i < qualifiedSTypes.size() - 1) { // Add a comma only if it's not the last element
+                qualifiedTypesName.append(", ");
+            }
+        }
 
         return "ID: " + person.getId() + " | Name: " + person.getName() + " | Gender: " + person.getGender() +
                 " | Birthday: " + person.getBirthDate() + " | Age: " + person.getAge() + " | Balance: " + person.getBalanceAccount().getBalance() +
