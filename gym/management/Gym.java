@@ -123,6 +123,5 @@ public class Gym {
     public String toString() {
         // Delegate the responsibility to GymLogger
         return GymInfo.outGymInfo(this);
-
     }
 }
