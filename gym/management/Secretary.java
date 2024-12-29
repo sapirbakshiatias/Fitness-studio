@@ -22,11 +22,12 @@ public class Secretary extends Subject {
     private int salary;
     //**
     private Notify notifier;
-    private NotificationService notificationSender = new NotificationService("");
+    private Subject notificationSender = new Subject("");
     private String Role;
 
 
     public Secretary(Person person, int salary) {
+        super("");
         this.person = person;
         this.salary = salary;
         this.notifier = new Notify();
@@ -61,7 +62,7 @@ public class Secretary extends Subject {
         }
         Client client = new Client(person);
         Gym.getInstance().addClient(client);
-        attach(client); // Attach client as observer
+        attachObserver(client); // Attach client as observer
         String action = "Registered new client: " + person.getName();
         GymActions.addAction(action);
         //FIXME
@@ -75,7 +76,7 @@ public class Secretary extends Subject {
         if (!Gym.getInstance().getClients().remove(client)) {
             throw new ClientNotRegisteredException("Error: Registration is required before attempting to unregister");
         }
-        detach(client); // Detach client from observers
+        detachObserver(client); // Detach client from observers
         Gym.getInstance().removeFromRegisteredClients(client);
         client.clearClientData();
         notificationSender.detachObserver(client);

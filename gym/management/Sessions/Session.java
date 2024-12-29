@@ -3,7 +3,7 @@ package gym.management.Sessions;
 import gym.customers.Client;
 import gym.customers.Gender;
 import gym.customers.Instructor;
-import gym.management.NotificationService;
+import gym.management.Subject;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -18,7 +18,7 @@ public abstract class Session {
     private int price;
     private int maxParticipants;
     private List<Client> participants;
-    private NotificationService messageSender;
+    private Subject messageSender;
 
 
     public Session(SessionType sessionType, String dateTimeStr, ForumType forumType, Instructor instructor) {

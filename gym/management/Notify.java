@@ -7,13 +7,13 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class Notify {
-    public void notifyBySession(Session session, String notification) {
-        if (session != null && notification != null) {
+    public void notifyBySession(Session session, String message) {
+        if (session != null && message != null) {
             for (Client client : session.getParticipants()) {
-                NotificationService.sendNotification(client, notification);
+                client.addNotificationToHistory(message); // Directly update history
             }
             GymActions.addAction("A message was sent to everyone registered for session " + session.getSessionType().getName() + " on "
-                    + session.getDateTime() + " : " + notification);// Optionally store message in history
+                    + session.getDateTime() + " : " + message);// Optionally store message in history
         }
     }
 
@@ -24,7 +24,7 @@ public class Notify {
             for (Session session : Gym.getInstance().getSessions()) {
                 if (session.getDateTime().toLocalDate().equals(notificationDate)) {  // Check if session is on the specified date
                     for (Client client : session.getParticipants()) {
-                        NotificationService.sendNotification(client, message);
+                        client.addNotificationToHistory(message); // Directly update history
                     }
                 }
             }
@@ -36,7 +36,7 @@ public class Notify {
     public void notifyByString(String message) {
         if (message != null) {
             for (Client client : Gym.getInstance().getClients()) {
-                NotificationService.sendNotification(client, message);
+                client.addNotificationToHistory(message); // Directly update history
             }
             GymActions.addAction("A message was sent to all gym clients: " + message);// Optionally store message in history
         }
