@@ -9,7 +9,6 @@ import java.time.format.DateTimeFormatter;
 public class Notify {
     public void notifyBySession(Session session, String notification) {
         if (session != null && notification != null) {
-
             for (Client client : session.getParticipants()) {
                 //fixme
                 //session.sendNotificationToParticipants(notification);
