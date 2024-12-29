@@ -34,11 +34,16 @@ public class GymInfo {
 
         // Sessions Data
         gymInfo.append("\nSessions Data:\n");
-        for (Session session : gym.getSessions()) {
-            gymInfo.append(session.toString()).append("\n");
+        for (int i = 0; i < gym.getSessions().size(); i++) {
+            Session session = gym.getSessions().get(i);
+            gymInfo.append(session.toString());
+            if (i < gym.getSessions().size() - 1) {
+                gymInfo.append("\n");
+            }
         }
 
         // Directly print gym information
-        return gymInfo.toString();
+        return gymInfo.toString().trim();
+
     }
 }
