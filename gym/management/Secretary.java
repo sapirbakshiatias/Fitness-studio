@@ -49,7 +49,9 @@ public class Secretary extends Subject {
     }
 
     //Methods
-    public Client registerClient(Person person) throws InvalidAgeException, DuplicateClientException {
+    public Client registerClient(Person person) throws NullPointerException,InvalidAgeException, DuplicateClientException {
+        Gym.getInstance().ensureSecretaryIsActive(this);
+
         if (person.getAge() < 18) {
             throw new InvalidAgeException("Error: Client must be at least 18 years old to register");
         }
@@ -69,7 +71,9 @@ public class Secretary extends Subject {
         return client;
     }
 
-    public void unregisterClient(Client client) throws ClientNotRegisteredException {
+    public void unregisterClient(Client client) throws NullPointerException, ClientNotRegisteredException {
+        Gym.getInstance().ensureSecretaryIsActive(this);
+
         if (!Gym.getInstance().getClients().remove(client)) {
             throw new ClientNotRegisteredException("Error: Registration is required before attempting to unregister");
         }
@@ -82,7 +86,9 @@ public class Secretary extends Subject {
 
     }
 
-    public Instructor hireInstructor(Person person, int hourlyRate, List<SessionType> qualifications) {
+    public Instructor hireInstructor(Person person, int hourlyRate, List<SessionType> qualifications) throws NullPointerException{
+        Gym.getInstance().ensureSecretaryIsActive(this);
+
         if (qualifications.isEmpty()) {
             System.out.println("Cannot hire instructor without valid session types");
             return null;
@@ -102,7 +108,8 @@ public class Secretary extends Subject {
     public void fireInstructor(Instructor instructor) {
 
     }
-    public Session addSession(SessionType type, String date, ForumType forum, Instructor instructor) throws InstructorNotQualifiedException {
+    public Session addSession(SessionType type, String date, ForumType forum, Instructor instructor) throws NullPointerException, InstructorNotQualifiedException {
+        Gym.getInstance().ensureSecretaryIsActive(this);
         LocalDateTime sessionDateTime = LocalDateTime.parse(date, DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm"));
         if (!instructor.getQualifiedSTypes().contains(type)) {
             throw new InstructorNotQualifiedException("Error: Instructor is not qualified to conduct this session type.");
@@ -133,10 +140,9 @@ public class Secretary extends Subject {
         return true;
     }
 
-    public void registerClientToLesson(Client client, Session session) throws InvalidAgeException, DuplicateClientException, ClientNotRegisteredException {
-//        if (!isThisActiveSecretary()) {
-//            throw new IllegalStateException("Error: Only the active secretary can perform this action.");
-//        }
+    public void registerClientToLesson(Client client, Session session) throws NullPointerException, DuplicateClientException, ClientNotRegisteredException {
+        Gym.getInstance().ensureSecretaryIsActive(this);
+
         boolean hasError = false;
 
         // Check if the client is registered in the gym
@@ -270,7 +276,8 @@ public class Secretary extends Subject {
     }
 
 
-    public void paySalaries() {
+    public void paySalaries() throws NullPointerException {
+        Gym.getInstance().ensureSecretaryIsActive(this);
         SalaryManager salaryManager = new SalaryManager();
         int totalPayment = 0;
 

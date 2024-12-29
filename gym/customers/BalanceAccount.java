@@ -14,10 +14,9 @@ public class BalanceAccount {
         }
     }
 
-    public boolean withdraw(int amount) {
+    public void withdraw(int amount) {
             balance -= amount;
-            return true;
-        }
+    }
 
 
     public int getBalance() {

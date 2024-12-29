@@ -101,10 +101,6 @@ public class Gym {
         activeSecretary = new Secretary(person, salary);
         GymActions.addAction("A new secretary has started working at the gym: " + person.getName());
     }
-
-
-
-
     public boolean isActiveSecretary() {
         return activeSecretary != null;
     }
@@ -118,7 +114,11 @@ public class Gym {
         }
         return activeSecretary;
     }
-
+    public void ensureSecretaryIsActive(Secretary secretary) {
+        if (!secretary.equals(getActiveSecretary())) {
+            throw new NullPointerException("Error: Former secretaries are not permitted to perform actions");
+        }
+    }
     @Override
     public String toString() {
         // Delegate the responsibility to GymLogger
