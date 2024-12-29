@@ -17,7 +17,6 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
-//FIXME להפריד בין יצירת מזיכרה, כמו CLIENT, לבין תפקיד המזכירה
 public class Secretary extends Subject {
     private Person person;
     private int salary;
@@ -26,8 +25,6 @@ public class Secretary extends Subject {
     private NotificationService notificationSender = new NotificationService("");
     private String Role;
 
-
-//TODO מזכירה אקטיבית בלבד יכולה לבצע פעולות
 
     public Secretary(Person person, int salary) {
         this.person = person;
@@ -69,7 +66,6 @@ public class Secretary extends Subject {
         GymActions.addAction(action);
         //FIXME
         //   notificationSender.attachObserver(person);
-
         return client;
     }
 
@@ -214,7 +210,6 @@ public class Secretary extends Subject {
 
     private boolean isClientAlreadyRegistered(Client client, Session session) {
         if (session.isParticipantRegistered(client)) {
-            //FIXME
             System.out.println("Error: The client is already registered for this lesson");
             return true;
         }
@@ -324,26 +319,6 @@ public class Secretary extends Subject {
     public void notify(String message) {
         notifier.notifyByString(message);
     }
-
-
-//    }
-//
-//    // Method to update the balance by adding an amount
-//    public void addFunds(double amount) {
-//        if (amount > 0) {
-//            this.balance += amount;
-//        }
-//    }
-//
-//    // Method to subtract from the balance (e.g., for expenses)
-//    public void deductFunds(double amount) {
-//        if (amount > 0 && this.balance >= amount) {
-//            this.balance -= amount;
-//        }
-//    }
-//
-//    // Optional: you can add any other necessary business logic related to the gym's balance here
-//}
 
 
     @Override

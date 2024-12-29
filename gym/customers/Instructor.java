@@ -18,18 +18,6 @@ public class Instructor implements Observer {
     private List<String> notifications;
 
 
-//FIXME- האם המאמן הוא גם לקוח?
-    //אם כן צריך לוודא שלא מתאמן ומאמן באותו זמן
-
-
-//    public Instructor(String name, int balance, Gender gender, String birthdaySrt, int salary, List<SessionType> qualifiedSTypes) {
-//        super(name, balance, gender, birthdaySrt);
-//        this.salary = salary;
-//        this.qualifiedSTypes = qualifiedSTypes;
-//        this.numberOfClasses = 0;
-//
-//    }
-
     public Instructor(Person person, int hourlySalary, List<SessionType> qualifiedSTypes) {
         this.person = person;
         this.hourlySalary = hourlySalary;

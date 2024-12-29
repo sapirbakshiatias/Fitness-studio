@@ -3,7 +3,6 @@ package gym.management.Sessions;
 import java.util.Objects;
 
 public class ForumType {
-    //FIXME? ENUM
     public static final ForumType All = new ForumType("All");
     public static final ForumType Female = new ForumType("Female");
     public static final ForumType Seniors = new ForumType("Seniors");
