@@ -18,14 +18,17 @@ public class Notify {
 
 
             }
-            GymActions.addAction("A message was sent to everyone registered for session" + session + session.getDateTime() + ":" + notification);// Optionally store message in history
+            GymActions.addAction("A message was sent to everyone registered for session " + session.getSessionType().getName() + " on "
+                    + session.getDateTime() + " : " + notification);// Optionally store message in history
         }
     }
 
     public void notifyByDate(String date, String message) {
         if (date != null && message != null) {
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");  // Adjust the format as needed
-            LocalDate notificationDate = LocalDate.parse(date, formatter);
+            DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+            LocalDate notificationDate = LocalDate.parse(date, inputFormatter);
+
+
 
             for (Session session : Gym.getInstance().getSessions()) {
                 if (session.getDateTime().toLocalDate().equals(notificationDate)) {  // Check if session is on the specified date
@@ -35,7 +38,7 @@ public class Notify {
                     }
                 }
             }
-            GymActions.addAction("A message was sent to everyone registered for a session on" + date + ":" + message);// Optionally store message in history
+            GymActions.addAction("A message was sent to everyone registered for a session on " + notificationDate + " : " + message);// Optionally store message in history
         }
     }
 
@@ -46,7 +49,7 @@ public class Notify {
                 NotificationService.sendNotification(client, message);
                 client.addNotificationToHistory(message);
             }
-            GymActions.addAction("A message was sent to all gym clients:" + message);// Optionally store message in history
+            GymActions.addAction("A message was sent to all gym clients: " + message);// Optionally store message in history
         }
     }
 }
