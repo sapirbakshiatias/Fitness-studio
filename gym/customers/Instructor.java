@@ -1,18 +1,22 @@
 package gym.customers;
 
+import gym.management.Observer;
 import gym.management.Sessions.Session;
 import gym.management.Sessions.SessionType;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Instructor {
+public class Instructor implements Observer {
     private Person person;
+    private String Role;
 
     private int hourlySalary;
     private List<SessionType> qualifiedSTypes;
     private int numberOfClasses;
     private List<Session> sessionsOfInstructor;
+    private List<String> notifications;
+
 
 //FIXME- האם המאמן הוא גם לקוח?
     //אם כן צריך לוודא שלא מתאמן ומאמן באותו זמן
@@ -32,10 +36,14 @@ public class Instructor {
         this.qualifiedSTypes = qualifiedSTypes;
         this.sessionsOfInstructor = new ArrayList<>();
         this.numberOfClasses = 0;
+        this.notifications = new ArrayList<>();
+        this.Role = "Instructor";
     }
+
     public Person getPerson() {
         return person;
     }
+
     public BalanceAccount getBalanceAccount() {
         return person.getBalanceAccount();
     }
@@ -78,17 +86,9 @@ public class Instructor {
     public int getNumberOfClasses() {
         return numberOfClasses;
     }
+
     public String getName() {
         return person.getName();
-    }
-
-    public int getSalaryPerHour() {
-            if (hourlySalary == 0) {
-                return 0;
-            }
-            if(getNumberOfClasses() == 0)
-                return 0;
-        return hourlySalary / getNumberOfClasses();
     }
 
     @Override
@@ -96,15 +96,31 @@ public class Instructor {
         // Create a string to hold the list of qualified session types
         StringBuilder qualifiedTypesName = new StringBuilder();
         for (SessionType type : qualifiedSTypes) {
-            qualifiedTypesName.append(type.getName()).append(", ");} // Adding each session type name
+            qualifiedTypesName.append(type.getName()).append(", ");
+        } // Adding each session type name
 
         return "ID: " + person.getId() + " | Name: " + person.getName() + " | Gender: " + person.getGender() +
                 " | Birthday: " + person.getBirthDate() + " | Age: " + person.getAge() + " | Balance: " + person.getBalanceAccount().getBalance() +
-                " | Role: " + person.getRole() + " | Salary per Hour: " + getSalaryPerHour() +
+                " | Role: " + Role + " | Salary per Hour: " + getHourlySalary() +
                 " | Certified Classes: " + qualifiedTypesName;
     }
+
     public Session[] getSessions() {
         return sessionsOfInstructor.toArray(new Session[0]);
 
     }
+
+    public void addNotificationToHistory(String message) {
+        notifications.add(message);
+    }
+
+    public List<String> getNotifications() {
+        return notifications;
+    }
+
+    @Override
+    public void update(String message) {
+        notifications.add(message);
+    }
+
 }

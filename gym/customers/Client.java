@@ -12,20 +12,17 @@ import java.util.logging.Logger;
 
 public class Client implements Observer {
     private Person person;
-    private static final Logger logger = Logger.getLogger(Client.class.getName());  // Create a Logger instance
     private List<ForumType> clientForum;
     private List<Session> myRegisteredSession;
     private List<String> notifications;
+
     public Client(Person person) throws InvalidAgeException {
         if (person.getAge() < 18) {
             throw new InvalidAgeException("Error: Client must be at least 18 years old to register ");
         }
         this.person = person;
-        this.notifications = new ArrayList<>();
         this.clientForum = new ArrayList<>();
         this.myRegisteredSession = new ArrayList<>();
-        //this.setRole("Client");
-        // **
         this.notifications = new ArrayList<>();
         setForumC();
     }
@@ -48,20 +45,14 @@ public class Client implements Observer {
 
     public void clearClientData() {
         this.clientForum.clear();
-        //   this.myRegisteredSession.clear();
         this.myRegisteredSession.clear();
-      //  this.setRegistered(false);
-        //this.setRole("Person");
-        //**fixme
         this.notifications.clear();
     }
 
     public String getName() {
         return person.getName();
     }
-//    public String getRole() {
-//        return person.getRole();
-//    }
+
 public BalanceAccount getBalanceAccount() {
     return person.getBalanceAccount();
 }
