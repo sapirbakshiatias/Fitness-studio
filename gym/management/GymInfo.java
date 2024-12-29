@@ -5,7 +5,7 @@ import gym.customers.Instructor;
 import gym.management.Sessions.Session;
 
 public class GymInfo {
-    public static void outGymInfo(Gym gym) {
+    public static String outGymInfo(Gym gym) {
         StringBuilder gymInfo = new StringBuilder();
 
         // Gym Name
@@ -39,6 +39,6 @@ public class GymInfo {
         }
 
         // Directly print gym information
-        System.out.println(gymInfo.toString());
+        return gymInfo.toString();
     }
 }
