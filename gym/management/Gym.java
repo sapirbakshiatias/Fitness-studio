@@ -122,6 +122,7 @@ public class Gym {
     @Override
     public String toString() {
         // Delegate the responsibility to GymLogger
-        return GymInfo.outGymInfo(this);
+        return GymInfo.outGymInfo(this).trim();
+
     }
 }

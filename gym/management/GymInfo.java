@@ -9,35 +9,41 @@ public class GymInfo {
         StringBuilder gymInfo = new StringBuilder();
 
         // Gym Name
-        gymInfo.append("Gym Name: ").append(gym.getName()).append("\r\n");
+        gymInfo.append("Gym Name: ").append(gym.getName()).append("\n");
 
         // Gym Secretary
         gymInfo.append("Gym Secretary: ").append(
                 gym.getSecretary() != null ? gym.getSecretary().toString() : "No active secretary"
-        ).append("\r\n");
+        ).append("\n");
 
         // Gym Balance
-        gymInfo.append("Gym Balance: ").append(gym.getBalanceGym().getBalance()).append("\r\n");
+        gymInfo.append("Gym Balance: ").append(gym.getBalanceGym().getBalance()).append("\n");
 
         // Clients Data
-        gymInfo.append("\r\nClients Data:\r\n");
+        gymInfo.append("\nClients Data:\n");
         for (Client client : gym.getClients()) {
-            gymInfo.append(client.toString()).append("\r\n");
+            gymInfo.append(client.toString()).append("\n");
         }
 
         // Employees Data (Instructors)
-        gymInfo.append("\r\nEmployees Data:\r\n");
+        gymInfo.append("\nEmployees Data:\n");
         for (Instructor instructor : gym.getInstructors()) {
-            gymInfo.append(instructor.toString()).append("\r\n");
+            gymInfo.append(instructor.toString()).append("\n");
         }
-        gymInfo.append(gym.getSecretary().toString()).append("\r\n");
+        gymInfo.append(gym.getSecretary().toString()).append("\n");
 
         // Sessions Data
-        gymInfo.append("\r\nSessions Data:\r\n");
-        for (Session session : gym.getSessions()) {
-            gymInfo.append(session.toString()).append("\r\n");
+        gymInfo.append("\nSessions Data:\n");
+        for (int i = 0; i < gym.getSessions().size(); i++) {
+            Session session = gym.getSessions().get(i);
+            gymInfo.append(session.toString());
+            if (i < gym.getSessions().size() - 1) {
+                gymInfo.append("\n");
+            }
         }
 
+        // Directly print gym information
         return gymInfo.toString().trim();
+
     }
 }
