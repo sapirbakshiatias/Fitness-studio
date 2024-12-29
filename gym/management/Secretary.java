@@ -84,7 +84,7 @@ public class Secretary extends Subject {
         client.clearClientData();
         notificationSender.detachObserver(client);
         String action = "Unregistered client: " + client.getPerson().getName();
-        GymActions.addAction(action + "\n");
+        GymActions.addAction(action);
 
     }
 
