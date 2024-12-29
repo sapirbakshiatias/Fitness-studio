@@ -30,6 +30,7 @@ public class GymInfo {
         for (Instructor instructor : gym.getInstructors()) {
             gymInfo.append(instructor.toString()).append("\n");
         }
+        gymInfo.append(gym.getSecretary().toString()).append("\n");
 
         // Sessions Data
         gymInfo.append("\nSessions Data:\n");

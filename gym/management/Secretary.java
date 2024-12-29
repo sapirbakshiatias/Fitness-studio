@@ -15,7 +15,6 @@ import gym.management.Sessions.SessionType;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
 
 //FIXME להפריד בין יצירת מזיכרה, כמו CLIENT, לבין תפקיד המזכירה
@@ -25,6 +24,7 @@ public class Secretary extends Subject {
     //**
     private Notify notifier;
     private NotificationService notificationSender = new NotificationService("");
+    private String Role;
 
 
 //TODO מזכירה אקטיבית בלבד יכולה לבצע פעולות
@@ -33,7 +33,9 @@ public class Secretary extends Subject {
         this.person = person;
         this.salary = salary;
         this.notifier = new Notify();
+        this.Role = "Secretary";
     }
+
     public String getName() {
         return person.getName();
     }
@@ -49,7 +51,7 @@ public class Secretary extends Subject {
     }
 
     //Methods
-    public Client registerClient(Person person) throws NullPointerException,InvalidAgeException, DuplicateClientException {
+    public Client registerClient(Person person) throws NullPointerException, InvalidAgeException, DuplicateClientException {
         Gym.getInstance().ensureSecretaryIsActive(this);
 
         if (person.getAge() < 18) {
@@ -66,7 +68,7 @@ public class Secretary extends Subject {
         String action = "Registered new client: " + person.getName();
         GymActions.addAction(action);
         //FIXME
-     //   notificationSender.attachObserver(person);
+        //   notificationSender.attachObserver(person);
 
         return client;
     }
@@ -86,7 +88,7 @@ public class Secretary extends Subject {
 
     }
 
-    public Instructor hireInstructor(Person person, int hourlyRate, List<SessionType> qualifications) throws NullPointerException{
+    public Instructor hireInstructor(Person person, int hourlyRate, List<SessionType> qualifications) throws NullPointerException {
         Gym.getInstance().ensureSecretaryIsActive(this);
 
         if (qualifications.isEmpty()) {
@@ -105,9 +107,11 @@ public class Secretary extends Subject {
         GymActions.addAction(action);
         return instructor;
     }
+
     public void fireInstructor(Instructor instructor) {
 
     }
+
     public Session addSession(SessionType type, String date, ForumType forum, Instructor instructor) throws NullPointerException, InstructorNotQualifiedException {
         Gym.getInstance().ensureSecretaryIsActive(this);
         LocalDateTime sessionDateTime = LocalDateTime.parse(date, DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm"));
@@ -149,7 +153,7 @@ public class Secretary extends Subject {
 
         // Check if the client is registered in the gym
         if (!isClientRegistered(client)) {
-                throw new ClientNotRegisteredException("Error: The client is not registered with the gym and cannot enroll in lessons");
+            throw new ClientNotRegisteredException("Error: The client is not registered with the gym and cannot enroll in lessons");
         }
 
         // Check if the session exists
@@ -202,6 +206,7 @@ public class Secretary extends Subject {
         }
         return true;
     }
+
     //
     private boolean doesSessionExist(Session session) {
         if (!Gym.getInstance().getSessions().contains(session)) {
@@ -232,6 +237,7 @@ public class Secretary extends Subject {
         }
         return false;
     }
+
     //
     private boolean isSessionFull(Session session) {
         if (session.isFull()) {
@@ -240,6 +246,7 @@ public class Secretary extends Subject {
         }
         return false;
     }
+
     //
     private boolean isSessionInFuture(Session session) {
         if (session.getDateTime().isBefore(LocalDateTime.now())) {
@@ -250,25 +257,25 @@ public class Secretary extends Subject {
     }
 
     private boolean isForumCompatible(Client client, Session session) {
-            // Check age compatibility first
-            if (!session.isAgeCompatible(client)) {
-                GymActions.addAction("Failed registration: Client doesn't meet the age requirements for this session (" + session.getForumType() + ")");
-                return false;
-            }
-
-            // Check forum (gender) compatibility only if age compatibility is true
-            if (!session.isForumCompatible(client)) {
-                GymActions.addAction("Failed registration: Client's gender doesn't match the session's gender requirements");
-                return false;
-            }
-
-            return true;
+        // Check age compatibility first
+        if (!session.isAgeCompatible(client)) {
+            GymActions.addAction("Failed registration: Client doesn't meet the age requirements for this session (" + session.getForumType() + ")");
+            return false;
         }
 
+        // Check forum (gender) compatibility only if age compatibility is true
+        if (!session.isForumCompatible(client)) {
+            GymActions.addAction("Failed registration: Client's gender doesn't match the session's gender requirements");
+            return false;
+        }
 
-        private boolean hasSufficientBalance(Client client, Session session) {
+        return true;
+    }
+
+
+    private boolean hasSufficientBalance(Client client, Session session) {
         if (session.getSessionType().getPrice() > client.getBalanceAccount().getBalance()) {
-                GymActions.addAction("Failed registration: Client doesn't have enough balance");
+            GymActions.addAction("Failed registration: Client doesn't have enough balance");
             return false;
         }
         return true;
@@ -305,6 +312,7 @@ public class Secretary extends Subject {
         String action = "Salaries have been paid to all employees";
         GymActions.addAction(action);
     }
+
     private boolean isThisActiveSecretary() {
         return this.equals(Gym.getInstance().getActiveSecretary());
     }
@@ -320,7 +328,6 @@ public class Secretary extends Subject {
     public void notify(String message) {
         notifier.notifyByString(message);
     }
-
 
 
 //    }
@@ -343,13 +350,13 @@ public class Secretary extends Subject {
 //}
 
 
-
     @Override
-    public String toString() {
+    public  String toString() {
         return "ID: " + person.getId() + " | Name: " + person.getName() + " | Gender: " + person.getGender() +
-                " | Birthday: " + person.getBirthDate() + " | Age: " + person.getAge() + " | Balance: " + person.getBalanceAccount().getBalance() +
-                " | Role: " + person.getRole() + " | Salary per Month: " + getSalarySec();
+                " | Birthday: " + person.getBirthDate() + " | Age: " + person.getAge() + " | Balance: " + person.getBalanceAccount().getBalance()
+                + " | Role: " + Role + " | Salary per Month: " + getSalarySec();
     }
+
     public void printActions() {
         GymActions.printActions();
     }
