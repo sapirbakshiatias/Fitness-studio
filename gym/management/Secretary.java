@@ -246,7 +246,7 @@ public class Secretary extends Subject {
     private boolean isForumCompatible(Client client, Session session) {
         //FIXME
         if (!session.isForumCompatible(client)) {
-            GymActions.addAction("Failed registration: Client's gender doesn't match the session's gender requirements (" + session.getForumType() + ")");
+            GymActions.addAction("Client doesn't meet the age requirements for this session (" + session.getForumType() + ")");
             return false;
         }
         return true;
