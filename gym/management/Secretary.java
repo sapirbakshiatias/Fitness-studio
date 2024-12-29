@@ -108,10 +108,6 @@ public class Secretary extends Subject {
         return instructor;
     }
 
-    public void fireInstructor(Instructor instructor) {
-
-    }
-
     public Session addSession(SessionType type, String date, ForumType forum, Instructor instructor) throws NullPointerException, InstructorNotQualifiedException {
         Gym.getInstance().ensureSecretaryIsActive(this);
         LocalDateTime sessionDateTime = LocalDateTime.parse(date, DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm"));
