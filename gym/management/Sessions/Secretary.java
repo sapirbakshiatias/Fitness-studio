@@ -47,6 +47,6 @@ public class Secretary extends Person {
     public String getOriginalRole() {
         return this.originalRole;
     }
-}
+
 }
 
