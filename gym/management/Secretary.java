@@ -82,7 +82,7 @@ public class Secretary extends Subject {
         client.clearClientData();
         notificationSender.detachObserver(client);
         String action = "Unregistered client: " + client.getPerson().getName();
-        GymActions.addAction(action);
+        GymActions.addAction(action + "\n");
 
     }
 
@@ -147,7 +147,7 @@ public class Secretary extends Subject {
 
         // Check if the client is registered in the gym
         if (!isClientRegistered(client)) {
-            hasError = true;
+                throw new ClientNotRegisteredException("Error: The client is not registered with the gym and cannot enroll in lessons");
         }
 
         // Check if the session exists
@@ -196,8 +196,6 @@ public class Secretary extends Subject {
 
     private boolean isClientRegistered(Client client) {
         if (!Gym.getInstance().getClients().contains(client)) {
-            //FIXME
-            System.out.println("Error: The client is not registered with the gym and cannot enroll in lessons");
             return false;
         }
         return true;
@@ -248,17 +246,25 @@ public class Secretary extends Subject {
         }
         return true;
     }
-    //
+
     private boolean isForumCompatible(Client client, Session session) {
-        //FIXME
-        if (!session.isForumCompatible(client)) {
-            GymActions.addAction("Client doesn't meet the age requirements for this session (" + session.getForumType() + ")");
-            return false;
+            // Check age compatibility first
+            if (!session.isAgeCompatible(client)) {
+                GymActions.addAction("Failed registration: Client doesn't meet the age requirements for this session (" + session.getForumType() + ")");
+                return false;
+            }
+
+            // Check forum (gender) compatibility only if age compatibility is true
+            if (!session.isForumCompatible(client)) {
+                GymActions.addAction("Failed registration: Client's gender doesn't match the session's gender requirements");
+                return false;
+            }
+
+            return true;
         }
-        return true;
-    }
-    //
-    private boolean hasSufficientBalance(Client client, Session session) {
+
+
+        private boolean hasSufficientBalance(Client client, Session session) {
         if (session.getSessionType().getPrice() > client.getBalanceAccount().getBalance()) {
                 GymActions.addAction("Failed registration: Client doesn't have enough balance");
             return false;

@@ -1,6 +1,8 @@
 package gym.management.Sessions;
 
-import gym.customers.*;
+import gym.customers.Client;
+import gym.customers.Gender;
+import gym.customers.Instructor;
 import gym.management.NotificationService;
 
 import java.time.LocalDateTime;
@@ -19,7 +21,6 @@ public abstract class Session {
     private NotificationService messageSender;
 
 
-
     public Session(SessionType sessionType, String dateTimeStr, ForumType forumType, Instructor instructor) {
         this.sessionType = sessionType;
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
@@ -28,9 +29,10 @@ public abstract class Session {
         this.instructor = instructor;
         this.price = sessionType.getPrice();
         this.maxParticipants = sessionType.getMaxParticipants();
-        this.participants =  new ArrayList<>();
+        this.participants = new ArrayList<>();
         this.messageSender = messageSender;
     }
+
     public boolean isForumCompatible(Client client) {
         if (forumType == ForumType.All) return true;
         if (forumType == ForumType.Male && client.getPerson().getGender() == Gender.Male) return true;
@@ -57,6 +59,7 @@ public abstract class Session {
     public Instructor getInstructor() {
         return instructor;
     }
+
     public void setParticipants(Client client) {
         participants.add(client);
     }
@@ -68,9 +71,11 @@ public abstract class Session {
     public SessionType getSessionType() {
         return this.sessionType;
     }
+
     public List<Client> getParticipants() {
         return this.participants;
     }
+
     public boolean isParticipantRegistered(Client client) {
         return participants.contains(client);
     }
@@ -80,22 +85,35 @@ public abstract class Session {
     }
 
     public void addParticipant(Client client) {
-            participants.add(client);
-        }
+        participants.add(client);
+    }
+
     public int numOfParticipant() {
         return participants.size();
     }
+
     @Override
     public String toString() {
         return "Session Type: " + getSessionType().getName() + " | Date: " + sessionDateTime + " | Forum: " + getForumType() +
                 " | Instructor: " + getInstructor().getName() + " | Participants: " + numOfParticipant() + "/" + maxParticipants;
     }
+
     public void sendNotificationToParticipants(String messageContent) {
         for (Client client : participants) {
             // Send message to each participant
             messageSender.sendNotification(client, messageContent);
 
         }
+    }
+
+    public boolean isAgeCompatible(Client client) {
+        int clientAge = client.getPerson().getAge();
+        // If the forum type is "Seniors," check if the client is a senior (60 or above)
+        if (forumType == ForumType.Seniors) {
+            return clientAge >= 60;
+        }
+        // For all other forum types, age compatibility is not checked
+        return true;
     }
 }
 
