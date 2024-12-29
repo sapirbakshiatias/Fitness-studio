@@ -94,7 +94,8 @@ public abstract class Session {
 
     @Override
     public String toString() {
-        return "Session Type: " + getSessionType().getName() + " | Date: " + sessionDateTime + " | Forum: " + getForumType() +
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
+        return "Session Type: " + getSessionType().getName() + " | Date: " + sessionDateTime.format(formatter)  + " | Forum: " + getForumType() +
                 " | Instructor: " + getInstructor().getName() + " | Participants: " + numOfParticipant() + "/" + maxParticipants;
     }
 

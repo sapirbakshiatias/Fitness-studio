@@ -46,7 +46,8 @@ public class Person {
 
 
     public String getBirthDate() {
-        return birthDate.toString();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        return birthDate.format(formatter);
     }
 
     public int getAge() {

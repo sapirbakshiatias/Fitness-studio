@@ -121,7 +121,9 @@ public class Secretary extends Subject {
         Session session = SessionFactory.createSession(type, date, forum, instructor);
         Gym.getInstance().addSession(session);
         instructor.addSessionsOfInstructor(session);
-        String action = "Created new session: " + type.getName() + " on " + date + " with instructor: " + instructor.getPerson().getName();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
+        String formattedDate = sessionDateTime.format(formatter);
+        String action = "Created new session: " + type.getName() + " on " + formattedDate + " with instructor: " + instructor.getPerson().getName();
         GymActions.addAction(action);
         return session;
     }
@@ -300,7 +302,7 @@ public class Secretary extends Subject {
 
         // Update gym balance and log action
         Gym.getInstance().deductFromGymBalance(totalPayment);
-        String action = "Salaries have been paid to all employees, including the secretary.";
+        String action = "Salaries have been paid to all employees";
         GymActions.addAction(action);
     }
     private boolean isThisActiveSecretary() {
