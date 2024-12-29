@@ -14,6 +14,7 @@ public class Notify {
                 NotificationService.sendNotification(client, notification);
                 client.addNotificationToHistory(notification);
 
+
             }
             GymActions.addAction("A message was sent to everyone registered for session" + session + session.getDateTime() + ":" + notification);// Optionally store message in history
         }
